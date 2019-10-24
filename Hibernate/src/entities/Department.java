@@ -22,8 +22,8 @@ public class Department {
         return headEmployee;
     }
 
-    public void setHeadEmployee(Employee headEmploye) {
-        this.headEmployee = headEmploye;
+    public void setHeadEmployee(Employee headEmployee) {
+        this.headEmployee = headEmployee;
     }
 
     public Department(String name) {

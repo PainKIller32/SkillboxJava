@@ -1,38 +1,52 @@
 package entities;
 
-import java.util.Date;
-import java.util.HashMap;
+import java.time.LocalDate;
 
 public class Vocations {
     private Integer id;
-    private HashMap<Integer, Date> startVocation;
-    private HashMap<Integer, Date> endVocation;
+    private Employee employee;
+    private LocalDate startVocation;
+    private LocalDate endVocation;
 
-    public Vocations(){
+    public Vocations() {
         //Used by Hibernate
+    }
+
+    public Vocations(Employee employee, LocalDate startVocation, LocalDate endVocation){
+        this.employee = employee;
+        this.startVocation = startVocation;
+        this.endVocation = endVocation;
     }
 
     public Integer getId() {
         return id;
     }
 
-    public HashMap<Integer, Date> getStartVocation() {
-        return startVocation;
-    }
-
-    public HashMap<Integer, Date> getEndVocation() {
-        return endVocation;
-    }
-
     public void setId(Integer id) {
         this.id = id;
     }
 
-    public void setStartVocation(HashMap<Integer, Date> startVocation) {
+    public Employee getEmployee() {
+        return employee;
+    }
+
+    public void setEmployee(Employee employee) {
+        this.employee = employee;
+    }
+
+    public LocalDate getStartVocation() {
+        return startVocation;
+    }
+
+    public void setStartVocation(LocalDate startVocation) {
         this.startVocation = startVocation;
     }
 
-    public void setEndVocation(HashMap<Integer, Date> endVocation) {
+    public LocalDate getEndVocation() {
+        return endVocation;
+    }
+
+    public void setEndVocation(LocalDate endVocation) {
         this.endVocation = endVocation;
     }
 }

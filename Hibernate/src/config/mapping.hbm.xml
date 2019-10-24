@@ -15,7 +15,7 @@
     <class name="Department" table="department">
         <id name="id" column="id"><generator class="increment"/></id>
         <!--<property name="headId" unique="true" column="head_id"/>-->
-        <many-to-one name="getHeadEmployee" column="head_id" unique="true" class="entities.Employee" not-null="true"/>
+        <many-to-one name="HeadEmployee" column="head_id" unique="true" class="entities.Employee" not-null="true"/>
         <property name="name" not-null="true" />
         <property name="description" />
         <set name="employees" table="employee" inverse="true" lazy="true" fetch="select">
@@ -36,11 +36,11 @@
 
     <class name="Vocations" table="vocations">
         <id name="id" column="id"><generator class="increment"/></id>
-        <map name="startVocation" table="vocations" lazy="true" inverse="true" fetch="select">
-            <key><column name="id" not-null="true"/></key>
-            <index></index>
-            <element></element>
-        </map>
+        <many-to-one name="employee" class="entities.Employee" fetch="select">
+                <column name="emloyee_id" not-null="true"/>
+        </many-to-one>
+        <property name="startVocation" column="start_vocation"/>
+        <property name="endVocation" column="end_vocation"/>
     </class>
 
 </hibernate-mapping>
