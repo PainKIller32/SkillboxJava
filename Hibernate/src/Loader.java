@@ -62,14 +62,14 @@ public class Loader {
 //            .setParameter("name", "Отдел производства").list().get(0);
 //        session.delete(dept);
 
-        List<Vocations> vocations = (List<Vocations>) session.createQuery("FROM Vocations").list();
+        List<Vocations> vocations = session.createQuery("FROM Vocations", Vocations.class).list();
         if (vocations.isEmpty()) {
-            List<Employee> employees = (List<Employee>) session.createQuery("FROM Employee").list();
+            List<Employee> employees = session.createQuery("FROM Employee", Employee.class).list();
             for (Employee employee : employees) {
                 LocalDate start = employee.getHireDate();
                 while (start.getYear() <= LocalDate.now().getYear() + 1) {
-                    LocalDate startVocation = start.plusDays(rnd(false));
-                    LocalDate endVocation = startVocation.plusDays(rnd(true));
+                    LocalDate startVocation = start.plusDays(getVocationDaysOffset());
+                    LocalDate endVocation = startVocation.plusDays(getVocationDayDuration());
                     Vocations voc = new Vocations(employee, startVocation, endVocation);
                     session.save(voc);
                     start = start.plusYears(1);
@@ -83,23 +83,27 @@ public class Loader {
             for (int i = j; i < vocations.size(); i++) {
                 Vocations compared = vocations.get(i);
                 if (!voc.getEmployee().equals(compared.getEmployee())) {
-                    if (voc.getStartVocation().isAfter(compared.getStartVocation()) && voc.getStartVocation().isBefore(compared.getEndVocation())) {
-                        if (voc.getEndVocation().isBefore(compared.getEndVocation())) {
-                            System.out.println(voc.getEmployee().getName() + " и " + compared.getEmployee().getName());
-                            System.out.println("c " + voc.getStartVocation() + " по " + voc.getEndVocation() + "\n");
+                    LocalDate startA = compared.getStartVocation();
+                    LocalDate endA = compared.getEndVocation();
+                    LocalDate startB = voc.getStartVocation();
+                    LocalDate endB = voc.getEndVocation();
+                    String nameB = voc.getEmployee().getName();
+                    String nameA = compared.getEmployee().getName();
+                    if (startB.isAfter(startA) && startB.isBefore(endA)) {
+                        if (endB.isBefore(endA)) {
+                            System.out.println(nameB + " и " + nameA);
+                            System.out.println("c " + startB + " по " + endB + "\n");
                         } else {
-                            System.out.println(voc.getEmployee().getName() + " и " + compared.getEmployee().getName());
-                            System.out.println("c " + voc.getStartVocation() + " по " + compared.getEndVocation() + "\n");
+                            System.out.println(nameB + " и " + nameA);
+                            System.out.println("c " + startB + " по " + endA + "\n");
                         }
-                    } else {
-                        if (voc.getEndVocation().isAfter(compared.getStartVocation()) && voc.getEndVocation().isBefore(compared.getEndVocation())) {
-                            System.out.println(voc.getEmployee().getName() + " и " + compared.getEmployee().getName());
-                            System.out.println("c " + compared.getStartVocation() + " по " + voc.getEndVocation() + "\n");
-                        }
+                    } else if (endB.isAfter(startA) && endB.isBefore(endA)) {
+                        System.out.println(nameB + " и " + nameA);
+                        System.out.println("c " + startA + " по " + endB + "\n");
                     }
-                    if (compared.getStartVocation().isAfter(voc.getStartVocation()) && compared.getEndVocation().isBefore(voc.getEndVocation())) {
-                        System.out.println(voc.getEmployee().getName() + " и " + compared.getEmployee().getName());
-                        System.out.println("c " + compared.getStartVocation() + " по " + compared.getEndVocation() + "\n");
+                    if (startA.isAfter(startB) && endA.isBefore(endB)) {
+                        System.out.println(nameB + " и " + nameA);
+                        System.out.println("c " + startA + " по " + endA + "\n");
                     }
                 }
             }
@@ -131,12 +135,13 @@ public class Loader {
         }
     }
 
-    private static int rnd(Boolean end) {
+    private static int getVocationDaysOffset() {
         Random rand = new Random();
-        if (end) {
-            return rand.nextBoolean() ? 21 : 28;
-        } else {
-            return rand.nextInt(338);
-        }
+        return rand.nextInt(338);
+    }
+
+    private static int getVocationDayDuration() {
+        Random rand = new Random();
+        return rand.nextBoolean() ? 21 : 28;
     }
 }
