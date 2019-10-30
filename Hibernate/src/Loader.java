@@ -9,6 +9,7 @@ import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 
 import java.io.File;
 import java.time.LocalDate;
+import java.time.Period;
 import java.util.List;
 import java.util.Random;
 
@@ -87,23 +88,13 @@ public class Loader {
                     LocalDate endA = compared.getEndVocation();
                     LocalDate startB = voc.getStartVocation();
                     LocalDate endB = voc.getEndVocation();
-                    String nameB = voc.getEmployee().getName();
-                    String nameA = compared.getEmployee().getName();
-                    if (startB.isAfter(startA) && startB.isBefore(endA)) {
-                        if (endB.isBefore(endA)) {
-                            System.out.println(nameB + " и " + nameA);
-                            System.out.println("c " + startB + " по " + endB + "\n");
-                        } else {
-                            System.out.println(nameB + " и " + nameA);
-                            System.out.println("c " + startB + " по " + endA + "\n");
-                        }
-                    } else if (endB.isAfter(startA) && endB.isBefore(endA)) {
-                        System.out.println(nameB + " и " + nameA);
-                        System.out.println("c " + startA + " по " + endB + "\n");
-                    }
-                    if (startA.isAfter(startB) && endA.isBefore(endB)) {
-                        System.out.println(nameB + " и " + nameA);
-                        System.out.println("c " + startA + " по " + endA + "\n");
+
+                    int periodB = Period.between(startB, endB).getDays();
+                    if ((startB.isAfter(startA.minusDays(periodB)) && startB.isBefore(endA)) || startB.isEqual(endA) || endB.isEqual(startA)) {
+                        System.out.println(voc.getEmployee().getName() + " и " + compared.getEmployee().getName());
+                        long intersectStart = Math.max(startA.toEpochDay(), startB.toEpochDay());
+                        long intersectEnd = Math.min(endA.toEpochDay(), endB.toEpochDay());
+                        System.out.println("c " + LocalDate.ofEpochDay(intersectStart) + " по " + LocalDate.ofEpochDay(intersectEnd) + "\n");
                     }
                 }
             }
