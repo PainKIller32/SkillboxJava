@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<form xmlns="http://www.intellij.com/uidesigner/form/" version="1" bind-to-class="Form">
+  <grid id="27dc6" binding="rootPanel" layout-manager="BorderLayout" hgap="0" vgap="20">
+    <constraints>
+      <xy x="20" y="20" width="500" height="400"/>
+    </constraints>
+    <properties/>
+    <border type="none"/>
+    <children>
+      <grid id="f31a9" binding="buttons" layout-manager="FlowLayout" hgap="20" vgap="0" flow-align="1">
+        <constraints border-constraint="South"/>
+        <properties>
+          <preferredSize width="195" height="68"/>
+        </properties>
+        <border type="none"/>
+        <children>
+          <component id="7947" class="javax.swing.JButton" binding="startButton">
+            <constraints/>
+            <properties>
+              <font size="24"/>
+              <text value="Start!"/>
+            </properties>
+          </component>
+          <component id="21e8b" class="javax.swing.JButton" binding="StopButton">
+            <constraints/>
+            <properties>
+              <font size="24"/>
+              <text value="Stop!"/>
+            </properties>
+          </component>
+        </children>
+      </grid>
+      <grid id="75d4d" binding="time" layout-manager="FlowLayout" hgap="0" vgap="30" flow-align="1">
+        <constraints border-constraint="Center"/>
+        <properties>
+          <preferredSize width="345" height="100"/>
+        </properties>
+        <border type="none"/>
+        <children>
+          <component id="445e0" class="javax.swing.JLabel" binding="Hours">
+            <constraints/>
+            <properties>
+              <font name="Microsoft JhengHei Light" size="72" style="2"/>
+              <maximumSize width="28" height="80"/>
+              <minimumSize width="28" height="80"/>
+              <preferredSize width="105" height="80"/>
+              <text value="00:"/>
+            </properties>
+          </component>
+          <component id="58ffd" class="javax.swing.JLabel" binding="Minutes">
+            <constraints/>
+            <properties>
+              <font name="Microsoft JhengHei Light" size="72" style="2"/>
+              <maximumSize width="28" height="80"/>
+              <minimumSize width="28" height="80"/>
+              <preferredSize width="105" height="80"/>
+              <text value="00:"/>
+            </properties>
+          </component>
+          <component id="44d8" class="javax.swing.JLabel" binding="Seconds">
+            <constraints/>
+            <properties>
+              <font name="Microsoft JhengHei Light" size="72" style="2"/>
+              <maximumSize width="28" height="80"/>
+              <minimumSize width="28" height="80"/>
+              <preferredSize width="105" height="80"/>
+              <text value="00"/>
+            </properties>
+          </component>
+          <component id="b7ccd" class="javax.swing.JLabel" binding="MilliSeconds">
+            <constraints/>
+            <properties>
+              <alignmentY value="0.5"/>
+              <font name="Microsoft JhengHei Light" size="48" style="2"/>
+              <maximumSize width="28" height="80"/>
+              <minimumSize width="28" height="80"/>
+              <preferredSize width="100" height="80"/>
+              <text value="000"/>
+              <verticalAlignment value="3"/>
+              <verticalTextPosition value="3"/>
+            </properties>
+          </component>
+        </children>
+      </grid>
+    </children>
+  </grid>
+</form>
