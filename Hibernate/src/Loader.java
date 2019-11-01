@@ -9,7 +9,6 @@ import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 
 import java.io.File;
 import java.time.LocalDate;
-import java.time.Period;
 import java.util.List;
 import java.util.Random;
 
@@ -89,7 +88,7 @@ public class Loader {
                     LocalDate startB = voc.getStartVocation();
                     LocalDate endB = voc.getEndVocation();
 
-                    int periodB = Period.between(startB, endB).getDays();
+                    long periodB = (endB.toEpochDay() - startB.toEpochDay());
                     if ((startB.isAfter(startA.minusDays(periodB)) && startB.isBefore(endA)) || startB.isEqual(endA) || endB.isEqual(startA)) {
                         System.out.println(voc.getEmployee().getName() + " и " + compared.getEmployee().getName());
                         long intersectStart = Math.max(startA.toEpochDay(), startB.toEpochDay());
