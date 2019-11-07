@@ -9,45 +9,76 @@ public class Loader {
     private static Set<String> urls;
     private static Integer threadRunningCounter = 0;
     private static Form form;
-    private static Long start;
+    private static long start = 0;
 
     public static void main(String[] args) {
-        start = System.currentTimeMillis();
-        urls = ConcurrentHashMap.newKeySet();
-        try {
-            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        SwingUtilities.invokeLater(() -> {
+            urls = ConcurrentHashMap.newKeySet();
+            try {
+                UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
 
-        JFrame frame = new JFrame();
+            JFrame frame = new JFrame();
 
-        form = new Form();
-        frame.setContentPane(form.getRootPanel());
+            form = new Form();
+            frame.setContentPane(form.getRootPanel());
 
-        frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        frame.setTitle("SiteMap");
+            frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+            frame.setTitle("SiteMap");
 
-        frame.setSize(600, 200);
-        frame.setResizable(false);
-        frame.setLocationRelativeTo(null);
-        frame.setVisible(true);
+            frame.setSize(600, 200);
+            frame.setResizable(false);
+            frame.setLocationRelativeTo(null);
+            frame.setVisible(true);
+
+            form.addStartActionListener(e -> {
+                if (form.getTextOnStartButton().equals("Pause")) {
+                    form.setTextOnStartButton("Start");
+                    Processor.pause();
+                } else if (form.getUrl().trim().isEmpty() || form.getSavePath().trim().isEmpty()) {
+                    form.showWarningMassage();
+                } else {
+                    form.setTextOnStartButton("Pause");
+                    form.disabledTextFields();
+                    form.disabledViewButton();
+                    if (Processor.isPaused()) {
+                        Processor.proceed();
+                    } else {
+                        start = System.currentTimeMillis();
+                        form.setInfoTextArea(0, 0);
+                        new Processor(form.getUrl(), urls, new Processor.EventHandler() {
+                            @Override
+                            public synchronized void onThreadCreated() {
+                                threadRunningCounter++;
+                            }
+
+                            @Override
+                            public synchronized void onThreadFinished() {
+                                threadRunningCounter--;
+                                if (threadRunningCounter == 0) {
+                                    writeInFile();
+                                    form.setInfoTextArea(System.currentTimeMillis() - start, urls.size());
+                                    setInitialParameters();
+                                    form.showCompleteMassage();
+                                }
+                            }
+                        });
+                    }
+                }
+            });
+
+            form.addStopActionListener(e -> {
+                if (start != 0) {
+                    Processor.finish();
+                }
+            });
+        });
     }
 
-    public static void searchUrl(String url) {
-        Processor processor = new Processor(url, urls);
-        processor.start();
-    }
-
-    public synchronized static void onThreadCreated() {
-        threadRunningCounter++;
-        form.setInfoTextArea();
-    }
-
-    public synchronized static void onThreadFinished() throws IOException {
-        threadRunningCounter--;
-        if (threadRunningCounter == 0) {
-            FileWriter fw = new FileWriter(form.getSavePath());
+    private static void writeInFile() {
+        try (FileWriter fw = new FileWriter(form.getSavePath())) {
             TreeSet<String> printSet = new TreeSet<>(urls);
             for (String strings : printSet) {
                 int tab = strings.replaceAll("[^/]", "").length();
@@ -56,12 +87,16 @@ public class Loader {
                 }
                 fw.write(strings + "\n");
             }
-            fw.flush();
-            fw.close();
-            form.setInfoTextArea(System.currentTimeMillis() - start);
-            form.onFinished();
-            urls.clear();
-            JOptionPane.showMessageDialog(form.getRootPanel(), "Готово!", "", JOptionPane.INFORMATION_MESSAGE);
+        } catch (IOException e1) {
+            e1.printStackTrace();
         }
+    }
+
+    private static void setInitialParameters() {
+        form.setTextOnStartButton("Start");
+        form.enabledTextFields();
+        form.enabledViewButton();
+        urls.clear();
+        start = 0;
     }
 }

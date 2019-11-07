@@ -1,4 +1,5 @@
 import javax.swing.*;
+import java.awt.event.ActionListener;
 
 public class Form {
     private JPanel rootPanel;
@@ -13,40 +14,60 @@ public class Form {
     private JLabel labelURL;
     private JLabel labelSave;
     private JPanel labels;
-    private Integer pageCount = 0;
 
     public Form() {
         viewButton.addActionListener(e -> {
             JFileChooser fileChooser = new JFileChooser();
             int result = fileChooser.showSaveDialog(null);
-            if (result == JFileChooser.APPROVE_OPTION)
+            if (result == JFileChooser.APPROVE_OPTION) {
                 savePathTextField.setText(fileChooser.getSelectedFile().getPath());
-        });
-        startButton.addActionListener(e -> {
-            if (startButton.getText().equals("Pause")) {
-                startButton.setText("Start");
-                Processor.paused();
-            } else if (enterURLTextField.getText().trim().isEmpty() || savePathTextField.getText().trim().isEmpty()) {
-                JOptionPane.showMessageDialog(rootPanel, "Заполните все поля!", "", JOptionPane.WARNING_MESSAGE);
-            } else {
-                startButton.setText("Pause");
-                enterURLTextField.setEnabled(false);
-                savePathTextField.setEnabled(false);
-                viewButton.setEnabled(false);
-                if (Processor.isPaused()) Processor.started();
-                else Loader.searchUrl(enterURLTextField.getText());
             }
         });
-        stopButton.addActionListener(e -> Processor.finished());
     }
 
-    public void setInfoTextArea() {
-        pageCount++;
-        textAreaInfo.setText("Пройдено страниц: " + pageCount);
-        textAreaInfo.repaint();
+    public void addStartActionListener(ActionListener listener) {
+        startButton.addActionListener(listener);
     }
 
-    public void setInfoTextArea(Long time) {
+    public void addStopActionListener(ActionListener listener) {
+        stopButton.addActionListener(listener);
+    }
+
+    public void setTextOnStartButton(String text) {
+        startButton.setText(text);
+    }
+
+    public void disabledTextFields() {
+        enterURLTextField.setEnabled(false);
+        savePathTextField.setEnabled(false);
+    }
+
+    public void enabledTextFields() {
+        enterURLTextField.setEnabled(true);
+        savePathTextField.setEnabled(true);
+    }
+
+    public void disabledViewButton() {
+        viewButton.setEnabled(false);
+    }
+
+    public void enabledViewButton() {
+        viewButton.setEnabled(true);
+    }
+
+    public String getTextOnStartButton() {
+        return startButton.getText();
+    }
+
+    public void showWarningMassage() {
+        JOptionPane.showMessageDialog(rootPanel, "Заполните все поля!", "", JOptionPane.WARNING_MESSAGE);
+    }
+
+    public void showCompleteMassage() {
+        JOptionPane.showMessageDialog(rootPanel, "Готово!", "", JOptionPane.INFORMATION_MESSAGE);
+    }
+
+    public void setInfoTextArea(long time, Integer pageCount) {
         long minute = time / 60000;
         long seconds = time / 1000;
         textAreaInfo.setText("Пройдено страниц: " + pageCount + "\nВремя: " + minute + " минут(а) и " + seconds + " секунд(а)");
@@ -61,11 +82,7 @@ public class Form {
         return savePathTextField.getText();
     }
 
-    public void onFinished() {
-        startButton.setText("Start");
-        enterURLTextField.setEnabled(true);
-        savePathTextField.setEnabled(true);
-        viewButton.setEnabled(true);
-        pageCount = 0;
+    public String getUrl() {
+        return enterURLTextField.getText();
     }
 }
