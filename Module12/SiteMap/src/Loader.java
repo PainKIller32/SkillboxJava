@@ -7,7 +7,6 @@ import java.util.concurrent.ConcurrentHashMap;
 
 public class Loader {
     private static Set<String> urls;
-    private static Integer threadRunningCounter = 0;
     private static Form form;
     private static long start = 0;
 
@@ -33,52 +32,33 @@ public class Loader {
             frame.setLocationRelativeTo(null);
             frame.setVisible(true);
 
-            form.addStartActionListener(e -> {
-                if (form.getTextOnStartButton().equals("Pause")) {
-                    form.setTextOnStartButton("Start");
-                    Processor.pause();
-                } else if (form.getUrl().trim().isEmpty() || form.getSavePath().trim().isEmpty()) {
-                    form.showWarningMassage();
+            form.onStart(() -> {
+                if (Processor.isPaused()) {
+                    Processor.proceed();
                 } else {
-                    form.setTextOnStartButton("Pause");
-                    form.disabledTextFields();
-                    form.disabledViewButton();
-                    if (Processor.isPaused()) {
-                        Processor.proceed();
-                    } else {
-                        start = System.currentTimeMillis();
-                        form.setInfoTextArea(0, 0);
-                        new Processor(form.getUrl(), urls, new Processor.EventHandler() {
-                            @Override
-                            public synchronized void onThreadCreated() {
-                                threadRunningCounter++;
-                            }
-
-                            @Override
-                            public synchronized void onThreadFinished() {
-                                threadRunningCounter--;
-                                if (threadRunningCounter == 0) {
-                                    writeInFile();
-                                    form.setInfoTextArea(System.currentTimeMillis() - start, urls.size());
-                                    setInitialParameters();
-                                    form.showCompleteMassage();
-                                }
-                            }
-                        });
-                    }
+                    start = System.currentTimeMillis();
+                    new Processor(form.getUrl(), urls, 100);
                 }
             });
 
-            form.addStopActionListener(e -> {
+            Processor.onParsingFinished(() -> {
+                writeInFile(form.getPath());
+                form.parsingFinished(System.currentTimeMillis() - start, urls.size());
+                setInitialParameters();
+            });
+
+            form.onStop(() -> {
                 if (start != 0) {
-                    Processor.finish();
+                    Processor.shutdown();
                 }
             });
+
+            form.onPause(Processor::pause);
         });
     }
 
-    private static void writeInFile() {
-        try (FileWriter fw = new FileWriter(form.getSavePath())) {
+    private static void writeInFile(String savePath) {
+        try (FileWriter fw = new FileWriter(savePath)) {
             TreeSet<String> printSet = new TreeSet<>(urls);
             for (String strings : printSet) {
                 int tab = strings.replaceAll("[^/]", "").length();
@@ -93,9 +73,6 @@ public class Loader {
     }
 
     private static void setInitialParameters() {
-        form.setTextOnStartButton("Start");
-        form.enabledTextFields();
-        form.enabledViewButton();
         urls.clear();
         start = 0;
     }

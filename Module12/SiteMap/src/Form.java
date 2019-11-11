@@ -1,5 +1,4 @@
 import javax.swing.*;
-import java.awt.event.ActionListener;
 
 public class Form {
     private JPanel rootPanel;
@@ -14,6 +13,9 @@ public class Form {
     private JLabel labelURL;
     private JLabel labelSave;
     private JPanel labels;
+    private Action onStart;
+    private Action onStop;
+    private Action onPause;
 
     public Form() {
         viewButton.addActionListener(e -> {
@@ -23,66 +25,68 @@ public class Form {
                 savePathTextField.setText(fileChooser.getSelectedFile().getPath());
             }
         });
+
+        startButton.addActionListener(e -> {
+            if (startButton.getText().equals("Pause")) {
+                startButton.setText("Start");
+                onPause.accept();
+            } else if (isFormValid()) {
+                textAreaInfo.setText("Пройдено страниц:\nВремя:");
+                startButton.setText("Pause");
+                enterURLTextField.setEnabled(false);
+                savePathTextField.setEnabled(false);
+                viewButton.setEnabled(false);
+                onStart.accept();
+            } else {
+                JOptionPane.showMessageDialog(rootPanel, "Заполните все поля!", "", JOptionPane.WARNING_MESSAGE);
+            }
+        });
+
+        stopButton.addActionListener(e -> onStop.accept());
     }
 
-    public void addStartActionListener(ActionListener listener) {
-        startButton.addActionListener(listener);
+    private boolean isFormValid() {
+        return !enterURLTextField.getText().trim().isEmpty() && !savePathTextField.getText().trim().isEmpty();
     }
 
-    public void addStopActionListener(ActionListener listener) {
-        stopButton.addActionListener(listener);
+    public void onStart(Action onStart) {
+        this.onStart = onStart;
     }
 
-    public void setTextOnStartButton(String text) {
-        startButton.setText(text);
+    public void onPause(Action onPause) {
+        this.onPause = onPause;
     }
 
-    public void disabledTextFields() {
-        enterURLTextField.setEnabled(false);
-        savePathTextField.setEnabled(false);
+    public void onStop(Action onStop) {
+        this.onStop = onStop;
     }
 
-    public void enabledTextFields() {
-        enterURLTextField.setEnabled(true);
-        savePathTextField.setEnabled(true);
-    }
-
-    public void disabledViewButton() {
-        viewButton.setEnabled(false);
-    }
-
-    public void enabledViewButton() {
-        viewButton.setEnabled(true);
-    }
-
-    public String getTextOnStartButton() {
-        return startButton.getText();
-    }
-
-    public void showWarningMassage() {
-        JOptionPane.showMessageDialog(rootPanel, "Заполните все поля!", "", JOptionPane.WARNING_MESSAGE);
-    }
-
-    public void showCompleteMassage() {
-        JOptionPane.showMessageDialog(rootPanel, "Готово!", "", JOptionPane.INFORMATION_MESSAGE);
-    }
-
-    public void setInfoTextArea(long time, Integer pageCount) {
+    public void parsingFinished(long time, Integer pageCount) {
         long minute = time / 60000;
         long seconds = time / 1000;
         textAreaInfo.setText("Пройдено страниц: " + pageCount + "\nВремя: " + minute + " минут(а) и " + seconds + " секунд(а)");
         textAreaInfo.repaint();
+        startButton.setText("Start");
+        enterURLTextField.setEnabled(true);
+        savePathTextField.setEnabled(true);
+        viewButton.setEnabled(true);
+        JOptionPane.showMessageDialog(rootPanel, "Готово!", "", JOptionPane.INFORMATION_MESSAGE);
+    }
+
+    @FunctionalInterface
+    interface Action {
+        void accept();
     }
 
     public JPanel getRootPanel() {
         return rootPanel;
     }
 
-    public String getSavePath() {
-        return savePathTextField.getText();
-    }
-
     public String getUrl() {
         return enterURLTextField.getText();
+    }
+
+    public String getPath() {
+        return savePathTextField.getText();
     }
 }
