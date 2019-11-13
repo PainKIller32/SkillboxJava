@@ -7,7 +7,7 @@ import java.util.concurrent.Executors;
 
 public class BankTest {
     private final int NUM_OF_USERS = 10;
-    private final int NUM_OF_THREADS = 100;
+    private final int NUM_OF_THREADS = 10;
     private final int NUM_OF_TRANSACTION = 10_000;
     private final int MONEY_IN_ACCOUNT = 100_000;
     private final int START_ACC_NUM_COUNTER = 1_000_000;

@@ -9,6 +9,7 @@ public class Loader {
     private static Set<String> urls;
     private static Form form;
     private static long start = 0;
+    private static long end = 0;
 
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> {
@@ -32,28 +33,31 @@ public class Loader {
             frame.setLocationRelativeTo(null);
             frame.setVisible(true);
 
+            Processor processor = new Processor();
+
             form.onStart(() -> {
-                if (Processor.isPaused()) {
-                    Processor.proceed();
+                if (processor.isPaused()) {
+                    processor.proceed();
                 } else {
                     start = System.currentTimeMillis();
-                    new Processor(form.getUrl(), urls, 100);
+                    processor.start(form.getUrl(), urls, 100);
                 }
             });
 
-            Processor.onParsingFinished(() -> {
+            processor.onParsingFinished(() -> {
                 writeInFile(form.getPath());
-                form.parsingFinished(System.currentTimeMillis() - start, urls.size());
+                end = System.currentTimeMillis() - start;
+                SwingUtilities.invokeLater(() -> form.parsingFinished(end, urls.size()));
                 setInitialParameters();
             });
 
             form.onStop(() -> {
                 if (start != 0) {
-                    Processor.shutdown();
+                    processor.shutdown();
                 }
             });
 
-            form.onPause(Processor::pause);
+            form.onPause(processor::pause);
         });
     }
 

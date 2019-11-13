@@ -7,50 +7,34 @@ import java.io.IOException;
 import java.util.Set;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.atomic.AtomicInteger;
 
-public class Processor extends Thread {
-    private String url;
+public class Processor {
     private Set<String> urls;
-    private Integer threadRunningCounter;
-    private static boolean stop;
-    private static boolean pause;
-    private static Finished finish;
-    private static ExecutorService service;
-    private final int NUMBER_OF_THREADS;
+    private AtomicInteger threadRunningCounter = new AtomicInteger();
+    private boolean pause;
+    private Finished finish;
+    private ExecutorService service;
 
-    public Processor(String url, Set<String> urls, int numberOfThreads) {
-        NUMBER_OF_THREADS = numberOfThreads;
-        threadRunningCounter = 0;
+    public void start(String url, Set<String> urls, int numberOfThreads) {
         pause = false;
-        stop = false;
-        this.url = url;
         this.urls = urls;
-        this.start();
-    }
-
-    @Override
-    public void run() {
-        service = Executors.newFixedThreadPool(NUMBER_OF_THREADS);
+        service = Executors.newFixedThreadPool(numberOfThreads);
         service.submit(createNewThread(url));
     }
 
     private Runnable createNewThread(String url) {
         return () -> {
             try {
-                synchronized (Processor.class) {
-                    threadRunningCounter++;
-                }
+                threadRunningCounter.incrementAndGet();
                 System.out.println(Thread.currentThread().getName());
-                sleep((long) (Math.random() * 2000));
+                Thread.sleep((long) (Math.random() * 3000));
                 Document doc = Jsoup.connect(url).maxBodySize(0).get();
                 Elements elements = doc.getElementsByAttributeValueContaining("abs:href", url);
                 for (Element element : elements) {
-                    synchronized (Processor.class) {
+                    synchronized (this) {
                         while (pause) {
-                            Processor.class.wait();
-                        }
-                        if (stop) {
-                            break;
+                            this.wait();
                         }
                     }
                     String addedElement = element.attr("abs:href");
@@ -64,10 +48,8 @@ public class Processor extends Thread {
             } catch (IOException | InterruptedException e) {
                 e.printStackTrace();
             } finally {
-                synchronized (Processor.class) {
-                    threadRunningCounter--;
-                }
-                if (threadRunningCounter == 0) {
+                threadRunningCounter.decrementAndGet();
+                if (threadRunningCounter.get() == 0) {
                     finish.accept();
                     service.shutdown();
                 }
@@ -75,33 +57,25 @@ public class Processor extends Thread {
         };
     }
 
-    public static void onParsingFinished(Finished finished) {
+    public void onParsingFinished(Finished finished) {
         finish = finished;
     }
 
-    public static boolean isPaused() {
+    public boolean isPaused() {
         return pause;
     }
 
-    public static void shutdown() {
-        stop = true;
-        synchronized (Processor.class) {
-            if (pause) {
-                pause = false;
-                Processor.class.notifyAll();
-            }
-        }
+    public void shutdown() {
+        proceed();
         service.shutdownNow();
     }
 
-    public static void proceed() {
-        synchronized (Processor.class) {
-            pause = false;
-            Processor.class.notifyAll();
-        }
+    public synchronized void proceed() {
+        pause = false;
+        this.notifyAll();
     }
 
-    public static void pause() {
+    public void pause() {
         pause = true;
     }
 
