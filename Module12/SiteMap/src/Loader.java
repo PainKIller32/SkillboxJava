@@ -39,6 +39,7 @@ public class Loader {
                 if (processor.isPaused()) {
                     processor.proceed();
                 } else {
+                    urls.clear();
                     start = System.currentTimeMillis();
                     processor.start(form.getUrl(), urls, 100);
                 }
@@ -47,8 +48,8 @@ public class Loader {
             processor.onParsingFinished(() -> {
                 writeInFile(form.getPath());
                 end = System.currentTimeMillis() - start;
+                start = 0;
                 SwingUtilities.invokeLater(() -> form.parsingFinished(end, urls.size()));
-                setInitialParameters();
             });
 
             form.onStop(() -> {
@@ -74,10 +75,5 @@ public class Loader {
         } catch (IOException e1) {
             e1.printStackTrace();
         }
-    }
-
-    private static void setInitialParameters() {
-        urls.clear();
-        start = 0;
     }
 }
