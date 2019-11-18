@@ -16,7 +16,7 @@ public class Bank {
         return Long.toString(accNumberCount);
     }
 
-    private synchronized boolean isFraud(String fromAccountNum, String toAccountNum, long amount)
+    private synchronized boolean isFraud(Account fromAccountNum, Account toAccountNum, long amount)
             throws InterruptedException {
         Thread.sleep(1000);
         return random.nextBoolean();
@@ -29,14 +29,29 @@ public class Bank {
      * метод isFraud. Если возвращается true, то делается блокировка
      * счетов (как – на ваше усмотрение)
      */
-    public synchronized void transfer(String fromAccountNum, String toAccountNum, long amount) throws InterruptedException {
+    public void transfer(String fromAccountNum, String toAccountNum, long amount) throws InterruptedException {
         Account fromAccount = findAccount(fromAccountNum);
         Account toAccount = findAccount(toAccountNum);
+        if (fromAccountNum.compareTo(toAccountNum) > 0) {
+            synchronized (fromAccount.getLock()) {
+                synchronized (toAccount.getLock()) {
+                    doTransaction(fromAccount, toAccount, amount);
+                }
+            }
+        } else {
+            synchronized (toAccount.getLock()) {
+                synchronized (fromAccount.getLock()) {
+                    doTransaction(fromAccount, toAccount, amount);
+                }
+            }
+        }
+    }
 
+    private void doTransaction(Account fromAccount, Account toAccount, long amount) throws InterruptedException {
         if (!fromAccount.isBlocked() && !toAccount.isBlocked() && fromAccount.getBalance() >= amount) {
             fromAccount.debit(amount);
             toAccount.credit(amount);
-            if (amount > 50000 && isFraud(fromAccountNum, toAccountNum, amount)) {
+            if (amount > 50000 && isFraud(fromAccount, toAccount, amount)) {
                 fromAccount.blocking();
                 toAccount.blocking();
             }
