@@ -30,8 +30,8 @@ public class Bank {
      * счетов (как – на ваше усмотрение)
      */
     public void transfer(String fromAccountNum, String toAccountNum, long amount) throws InterruptedException {
-        Account fromAccount = findAccount(fromAccountNum);
-        Account toAccount = findAccount(toAccountNum);
+        Account fromAccount = findAccountByNum(fromAccountNum);
+        Account toAccount = findAccountByNum(toAccountNum);
         if (fromAccountNum.compareTo(toAccountNum) > 0) {
             synchronized (fromAccount.getLock()) {
                 synchronized (toAccount.getLock()) {
@@ -62,19 +62,22 @@ public class Bank {
      * TODO: реализовать метод. Возвращает остаток на счёте.
      */
     public long getBalance(String accountNum) {
-        return findAccount(accountNum).getBalance();
+        return findAccountByNum(accountNum).getBalance();
     }
 
 
-    private Account findAccount(String accountNum) {
-        Collection<Account> accountSet = accounts.values();
+    private Account findAccountByNum(String accountNum) {
         Account foundAccount = null;
-        for (Account account : accountSet) {
+        for (Account account : accounts.values()) {
             if (account.getAccNumber().equals(accountNum)) {
                 foundAccount = account;
                 break;
             }
         }
         return foundAccount;
+    }
+
+    private Account findAccountByName(String name) {
+        return accounts.get(name);
     }
 }

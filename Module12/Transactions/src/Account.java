@@ -1,6 +1,6 @@
 public class Account {
     private long money;
-    private String accNumber;
+    private final String accNumber;
     private boolean blocked;
     private final Object lock = new Object();
 
@@ -22,8 +22,10 @@ public class Account {
         this.money += money;
     }
 
-    public synchronized long getBalance() {
-        return money;
+    public long getBalance() {
+        synchronized (lock) {
+            return money;
+        }
     }
 
     public synchronized boolean isBlocked() {
