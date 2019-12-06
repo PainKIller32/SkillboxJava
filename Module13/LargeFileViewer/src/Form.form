@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<form xmlns="http://www.intellij.com/uidesigner/form/" version="1" bind-to-class="Form">
+  <grid id="27dc6" binding="rootPanel" layout-manager="BorderLayout" hgap="0" vgap="0">
+    <constraints>
+      <xy x="20" y="20" width="388" height="400"/>
+    </constraints>
+    <properties/>
+    <border type="none"/>
+    <children>
+      <toolbar id="7c291">
+        <constraints border-constraint="North"/>
+        <properties>
+          <alignmentY value="0.5"/>
+          <floatable value="false"/>
+          <focusable value="false"/>
+          <margin top="0" left="0" bottom="0" right="0"/>
+          <preferredSize width="200" height="35"/>
+          <rollover value="true"/>
+        </properties>
+        <clientProperties>
+          <JToolBar.isRollover class="java.lang.Boolean" value="true"/>
+        </clientProperties>
+        <border type="line">
+          <color color="-13553359"/>
+        </border>
+        <children>
+          <component id="dba09" class="javax.swing.JButton" binding="openButton">
+            <constraints/>
+            <properties>
+              <focusPainted value="true"/>
+              <focusable value="false"/>
+              <preferredSize width="81" height="32"/>
+              <text value="Открыть"/>
+            </properties>
+          </component>
+          <component id="4c70b" class="javax.swing.JButton" binding="saveButton">
+            <constraints/>
+            <properties>
+              <focusPainted value="true"/>
+              <focusable value="false"/>
+              <preferredSize width="92" height="32"/>
+              <text value="Сохранить"/>
+            </properties>
+          </component>
+          <component id="53aa5" class="javax.swing.JButton" binding="closeButton">
+            <constraints/>
+            <properties>
+              <focusable value="false"/>
+              <preferredSize width="92" height="32"/>
+              <text value="Закрыть"/>
+            </properties>
+          </component>
+          <component id="b574e" class="javax.swing.JComboBox" binding="charsetsBox">
+            <constraints/>
+            <properties>
+              <alignmentX value="0.5"/>
+              <focusable value="false"/>
+              <model>
+                <item value="UTF-8"/>
+                <item value="windows-1251"/>
+              </model>
+              <preferredSize width="50" height="30"/>
+            </properties>
+          </component>
+          <hspacer id="9b6ee">
+            <constraints/>
+          </hspacer>
+        </children>
+      </toolbar>
+      <component id="6fa11" class="javax.swing.JScrollBar" binding="scrollBar">
+        <constraints border-constraint="East"/>
+        <properties/>
+      </component>
+      <component id="d970d" class="javax.swing.JTextPane" binding="viewPane">
+        <constraints border-constraint="Center"/>
+        <properties>
+          <enabled value="false"/>
+        </properties>
+      </component>
+      <grid id="87c1f" binding="progressBarPanel" layout-manager="FlowLayout" hgap="5" vgap="5" flow-align="0">
+        <constraints border-constraint="South"/>
+        <properties>
+          <focusable value="false"/>
+          <opaque value="true"/>
+          <preferredSize width="10" height="20"/>
+          <visible value="false"/>
+        </properties>
+        <border type="none"/>
+        <children>
+          <component id="f24a4" class="javax.swing.JLabel">
+            <constraints/>
+            <properties>
+              <preferredSize width="80" height="16"/>
+              <text value="Сохранение: "/>
+            </properties>
+          </component>
+        </children>
+      </grid>
+    </children>
+  </grid>
+</form>
