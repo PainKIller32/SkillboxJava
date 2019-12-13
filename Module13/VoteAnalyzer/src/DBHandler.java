@@ -1,19 +1,17 @@
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 
 public class DBHandler {
     private Connection connection;
-    private StringBuilder builder = new StringBuilder();
-    private static final int BUFFER_SIZE = 256_000;
+    private PreparedStatement preparedStatement;
+    private static int queryCount = 0;
 
     public DBHandler(String dbName, String dbUser, String dbPass) {
         try {
             connection = DriverManager.getConnection(
                     "jdbc:mysql://localhost:3306/" + dbName +
-                            "?user=" + dbUser + "&password=" + dbPass);
+                            "?rewriteBatchedStatements=true&user=" + dbUser + "&password=" + dbPass);
             connection.createStatement().execute("TRUNCATE TABLE voter_count");
+            //connection.createStatement().execute("DROP INDEX voter ON voter_count");
 //                connection.createStatement().execute("DROP TABLE IF EXISTS voter_count");
 //                connection.createStatement().execute("CREATE TABLE voter_count(" +
 //                        "id INT NOT NULL AUTO_INCREMENT, " +
@@ -21,6 +19,7 @@ public class DBHandler {
 //                        "birthDate DATE NOT NULL, " +
 //                        "`count` INT NOT NULL, " +
 //                        "PRIMARY KEY(id))");
+            preparedStatement = connection.prepareStatement("INSERT INTO voter_count(name, birthDate, `count`) VALUES (?,?,1)");
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -28,29 +27,23 @@ public class DBHandler {
 
     public void countVoter(String name, String birthDay) throws SQLException {
         birthDay = birthDay.replace('.', '-');
-        if (builder.length() > BUFFER_SIZE) {
-            flushCounts();
+        if (queryCount > 50000) {
+            flushBatch();
         }
-        if (builder.length() == 0) {
-            builder.append("INSERT INTO voter_count(name, birthDate, `count`) VALUES");
-        } else {
-            builder.append(',');
-        }
-        builder.append("('")
-                .append(name)
-                .append("', '")
-                .append(birthDay)
-                .append("', 1)");
+        queryCount++;
+        preparedStatement.setString(1, name);
+        preparedStatement.setString(2, birthDay);
+        preparedStatement.addBatch();
     }
 
-    public void flushCounts() throws SQLException {
-        builder.append(" ON DUPLICATE KEY UPDATE `count`=`count` + 1");
-        connection.createStatement().execute(builder.toString());
-        builder = new StringBuilder();
+    public void flushBatch() throws SQLException {
+        preparedStatement.executeBatch();
+        queryCount = 0;
     }
 
     public void printVoterCounts() throws SQLException {
-        String sql = "SELECT name, birthDate, `count` FROM voter_count WHERE `count` > 1";
+        //connection.createStatement().execute("CREATE INDEX voter ON voter_count (name(50), birthDate)");
+        String sql = "SELECT name, birthDate, COUNT(*) AS count FROM voter_count GROUP BY name, birthDate HAVING count > 1";
         ResultSet rs = connection.createStatement().executeQuery(sql);
         while (rs.next()) {
             System.out.println("\t" + rs.getString("name") + " (" +

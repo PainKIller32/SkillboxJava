@@ -41,7 +41,7 @@ public class Handler extends DefaultHandler {
     @Override
     public void endDocument() {
         try {
-            dbHandler.flushCounts();
+            dbHandler.flushBatch();
         } catch (SQLException e) {
             e.printStackTrace();
         }
