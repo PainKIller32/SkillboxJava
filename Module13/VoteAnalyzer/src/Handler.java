@@ -1,5 +1,6 @@
 import org.xml.sax.Attributes;
 import org.xml.sax.helpers.DefaultHandler;
+
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -9,7 +10,11 @@ import java.util.HashMap;
 public class Handler extends DefaultHandler {
     private SimpleDateFormat visitDateFormat = new SimpleDateFormat("yyyy.MM.dd HH:mm:ss");
     private HashMap<Integer, WorkTime> voteStationWorkTimes = new HashMap<>();
-    private DBHandler dbHandler = new DBHandler("learn", "root", "mmm333");
+    private DBHandler dbHandler;
+
+    public Handler(DBHandler dbHandler) {
+        this.dbHandler = dbHandler;
+    }
 
     @Override
     public void startElement(String uri, String localName, String qName, Attributes attributes) {
@@ -34,7 +39,7 @@ public class Handler extends DefaultHandler {
                 workTime = new WorkTime();
                 voteStationWorkTimes.put(station, workTime);
             }
-            workTime.addVisitTime(time != null ? time.getTime() : 0);
+            workTime.addVisitTime(time);
         }
     }
 

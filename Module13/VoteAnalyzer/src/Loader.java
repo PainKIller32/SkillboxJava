@@ -15,7 +15,8 @@ public class Loader {
     }
 
     private static void parseFile(String fileName) throws Exception {
-        Handler handler = new Handler();
+        DBHandler dbHandler = new DBHandler("learn", "root", "mmm333");
+        Handler handler = new Handler(dbHandler);
         SAXParserFactory.newInstance().newSAXParser().parse(new File(fileName), handler);
         handler.printResults();
     }
