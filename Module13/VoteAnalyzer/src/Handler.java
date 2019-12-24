@@ -24,15 +24,15 @@ public class Handler extends DefaultHandler {
             try {
                 dbHandler.countVoter(name, birthDay);
             } catch (SQLException e) {
-                e.printStackTrace();
+                throw new RuntimeException(e);
             }
         } else if (qName.equals("visit")) {
             Integer station = Integer.parseInt(attributes.getValue("station"));
-            Date time = null;
+            Date time;
             try {
                 time = visitDateFormat.parse(attributes.getValue("time"));
             } catch (ParseException e) {
-                e.printStackTrace();
+                throw new RuntimeException(e);
             }
             WorkTime workTime = voteStationWorkTimes.get(station);
             if (workTime == null) {

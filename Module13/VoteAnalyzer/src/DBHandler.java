@@ -10,12 +10,12 @@ public class DBHandler {
                 "jdbc:mysql://localhost:3306/" + dbName +
                         "?rewriteBatchedStatements=true&user=" + dbUser + "&password=" + dbPass);
         connection.createStatement().execute("TRUNCATE TABLE voter_count");
-        //connection.createStatement().execute("DROP INDEX voter ON voter_count");
-//                connection.createStatement().execute("DROP TABLE IF EXISTS voter_count");
+        connection.createStatement().execute("DROP INDEX voter ON voter_count");
+                //connection.createStatement().execute("DROP TABLE IF EXISTS voter_count");
 //                connection.createStatement().execute("CREATE TABLE voter_count(" +
 //                        "id INT NOT NULL AUTO_INCREMENT, " +
-//                        "name TINYTEXT NOT NULL, " +
-//                        "birthDate DATE NOT NULL, " +
+//                        "name VARCHAR(50) NOT NULL, " +
+//                        "birthDate VARCHAR(50) NOT NULL, " +
 //                        "PRIMARY KEY(id))");
         preparedStatement = connection.prepareStatement("INSERT INTO voter_count(name, birthDate) VALUES (?,?)");
     }
@@ -37,7 +37,7 @@ public class DBHandler {
     }
 
     public void printVoterCounts() throws SQLException {
-        //connection.createStatement().execute("CREATE INDEX voter ON voter_count (name(50), birthDate)");
+        connection.createStatement().execute("CREATE INDEX voter ON voter_count (name(50), birthDate(50))");
         preparedStatement.close();
         String sql = "SELECT name, birthDate, COUNT(*) AS count FROM voter_count GROUP BY name, birthDate HAVING count > 1";
         ResultSet rs = connection.createStatement().executeQuery(sql);
