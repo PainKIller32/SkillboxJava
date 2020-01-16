@@ -1,0 +1,162 @@
+@media screen {
+    div {
+        font: 14px sans-serif;
+        font-style: italic;
+        font-stretch: ultra-condensed;
+        line-height: 1.5;
+    }
+
+    div.Audio {
+        font-stretch: ultra-expanded;
+        font-weight: bolder;
+    }
+
+    div.Text {
+        border: 5px solid darkcyan;
+        padding: 10px;
+        background: beige;
+        border-radius: 20px;
+        width: 800px;
+        height: 200px;
+        margin-top: 30px;
+        margin-left: 50px;
+        margin-bottom: 30px;
+        text-align: center;
+        text-indent: 1.5em;
+        position: relative;
+        left: 200px;
+        top: 100px;
+        z-index: 5;
+        opacity: 0.7;
+    }
+
+    table {
+        width: 900px;
+        border: 2px solid olivedrab;
+        border-collapse: collapse;
+        float: bottom;
+    }
+
+    ol {
+        position: relative;
+        bottom: 150px;
+        z-index: 2;
+    }
+
+    ul {
+        width: 400px;
+        height: 80px;
+        overflow: auto;
+        list-style-type: square;
+    }
+
+    span.display {
+        display: block;
+    }
+
+    span.vertAlign {
+        vertical-align: sub;
+        cursor: help;
+    }
+
+    a:link {
+        color: indigo;
+    }
+
+    a:visited {
+        color: chartreuse;
+    }
+
+    a:hover {
+        color: crimson;
+    }
+
+    a:active {
+        background-color: aqua;
+    }
+
+    @keyframes changeBackground {
+        0% {
+            background-color: red;
+            top: 0;
+            bottom: 0;
+        }
+        25% {
+            background-color: yellow;
+            top: 5px;
+            bottom: 0
+        }
+        50% {
+            background-color: green;
+            top: 0;
+            bottom: 5px
+        }
+        75% {
+            background-color: blue;
+            top: 5px;
+            bottom: 0
+        }
+        100% {
+            background-color: fuchsia;
+            top: 0;
+            bottom: 0
+        }
+    }
+    @keyframes changeBackgroundFast {
+        0% {
+            background-color: red;
+            left: 0;
+            right: 0;
+        }
+        25% {
+            background-color: yellow;
+            left: 200px;
+            right: 0;
+        }
+        50% {
+            background-color: green;
+            left: 0;
+            right: 200px;
+        }
+        75% {
+            background-color: blue;
+            left: 200px;
+            right: 0;
+        }
+        100% {
+            background-color: fuchsia;
+            left: 0;
+            right: 0;
+        }
+    }
+    h1 {
+        position: relative;
+        background: red;
+        width: 300px;
+        animation-name: changeBackground;
+        animation-duration: 5s;
+        animation-iteration-count: infinite;
+    }
+
+    h6 {
+        position: relative;
+        width: 100px;
+        animation-name: changeBackgroundFast;
+        animation-duration: 2s;
+        animation-iteration-count: infinite;
+    }
+
+    div.ui-widget {
+        width: 500px;
+    }
+}
+
+@media handheld {
+    body {
+        background: darkgoldenrod;
+    }
+
+    div {
+        color: crimson;
+    }
+}
