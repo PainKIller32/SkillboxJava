@@ -1,4 +1,4 @@
-package MyPackage;
+package Package;
 
 import java.util.Date;
 import java.util.TreeSet;
@@ -23,7 +23,7 @@ public class WorkTime {
 
     public String toString() {
         StringBuilder line = new StringBuilder();
-        for (MyPackage.TimePeriod period : periods) {
+        for (TimePeriod period : periods) {
             if (line.length() > 0) {
                 line.append(", ");
             }

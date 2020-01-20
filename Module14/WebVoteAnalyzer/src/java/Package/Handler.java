@@ -1,4 +1,4 @@
-package MyPackage;
+package Package;
 
 import org.xml.sax.Attributes;
 import org.xml.sax.helpers.DefaultHandler;

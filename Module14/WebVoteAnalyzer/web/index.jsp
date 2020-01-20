@@ -1,8 +1,9 @@
-<%@ page import="MyPackage.WorkTime" %>
+<%@ page import="Package.WorkTime" %>
 <%@ page import="java.util.HashMap" %>
-<%@ page import="MyPackage.Loader" %>
-<%@ page import="MyPackage.TimePeriod" %>
+<%@ page import="Package.Loader" %>
+<%@ page import="Package.TimePeriod" %>
 <%@ page import="java.util.TreeSet" %>
+<%@ page contentType="text/html;charset=UTF-8" %>
 <%
     HashMap<Integer, WorkTime> voteStationWorkTimes = new HashMap<>();
     StringBuilder table = new StringBuilder();
@@ -37,7 +38,6 @@
     table.append("</tr>");
     table.append(tableContent);
 %>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
     <title>VoteAnalyzer</title>
