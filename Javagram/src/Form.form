@@ -1,0 +1,1262 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<form xmlns="http://www.intellij.com/uidesigner/form/" version="1" bind-to-class="Form">
+  <grid id="27dc6" binding="RootPanel" layout-manager="BorderLayout" hgap="0" vgap="0">
+    <constraints>
+      <xy x="20" y="20" width="800" height="600"/>
+    </constraints>
+    <properties>
+      <enabled value="true"/>
+      <maximumSize width="800" height="600"/>
+      <minimumSize width="800" height="600"/>
+      <preferredSize width="800" height="600"/>
+    </properties>
+    <border type="none"/>
+    <children>
+      <grid id="fc461" binding="MainPanel" custom-create="true" layout-manager="CardLayout" hgap="0" vgap="0">
+        <constraints border-constraint="Center"/>
+        <properties>
+          <maximumSize width="800" height="570"/>
+          <minimumSize width="800" height="570"/>
+          <opaque value="true"/>
+          <preferredSize width="800" height="570"/>
+        </properties>
+        <border type="none"/>
+        <children>
+          <grid id="5ac58" binding="EnterPhoneNumber" layout-manager="FlowLayout" hgap="10" vgap="20" flow-align="1">
+            <constraints>
+              <card name="EnterPhoneNumber"/>
+            </constraints>
+            <properties>
+              <doubleBuffered value="false"/>
+              <focusable value="false"/>
+              <maximumSize width="800" height="570"/>
+              <minimumSize width="800" height="570"/>
+              <opaque value="false"/>
+              <preferredSize width="800" height="570"/>
+              <visible value="false"/>
+            </properties>
+            <border type="none"/>
+            <children>
+              <vspacer id="a3260">
+                <constraints/>
+              </vspacer>
+              <grid id="c101e" binding="Logo" custom-create="true" layout-manager="FlowLayout" hgap="5" vgap="20" flow-align="1">
+                <constraints/>
+                <properties>
+                  <background color="-58880"/>
+                  <doubleBuffered value="false"/>
+                  <focusable value="false"/>
+                  <maximumSize width="165" height="168"/>
+                  <minimumSize width="165" height="168"/>
+                  <opaque value="false"/>
+                  <preferredSize width="165" height="168"/>
+                </properties>
+                <border type="none"/>
+                <children/>
+              </grid>
+              <component id="1f315" class="javax.swing.JTextArea" binding="textAreaPhone">
+                <constraints/>
+                <properties>
+                  <editable value="false"/>
+                  <focusable value="false"/>
+                  <font name="Microsoft JhengHei Light" size="16" style="0"/>
+                  <foreground color="-1644826"/>
+                  <margin top="40" left="85" bottom="20" right="100"/>
+                  <maximumSize width="400" height="100"/>
+                  <minimumSize width="400" height="100"/>
+                  <opaque value="false"/>
+                  <preferredSize width="400" height="100"/>
+                  <tabSize value="8"/>
+                  <text value="  Введите код страны и номер&#10;вашего мобильного телефона"/>
+                </properties>
+              </component>
+              <component id="e7ae4" class="javax.swing.JTextField" binding="textFieldEnterNumber" custom-create="true">
+                <constraints/>
+                <properties>
+                  <dragEnabled value="false"/>
+                  <focusCycleRoot value="false"/>
+                  <focusTraversalPolicyProvider value="false"/>
+                  <font name="Microsoft JhengHei Light" size="40" style="0"/>
+                  <foreground color="-1644826"/>
+                  <horizontalAlignment value="2"/>
+                  <maximumSize width="350" height="45"/>
+                  <minimumSize width="350" height="45"/>
+                  <opaque value="false"/>
+                  <preferredSize width="350" height="45"/>
+                  <text value="+7"/>
+                </properties>
+                <clientProperties>
+                  <caretWidth class="java.lang.Integer" value="2"/>
+                </clientProperties>
+              </component>
+              <component id="22e31" class="javax.swing.JLabel" binding="invalidPhoneNumber">
+                <constraints/>
+                <properties>
+                  <alignmentX value="0.5"/>
+                  <focusable value="false"/>
+                  <font name="Microsoft JhengHei Light" size="16" style="0"/>
+                  <foreground color="-58880"/>
+                  <requestFocusEnabled value="false"/>
+                  <text value="Неправильный номер телефона!"/>
+                  <verifyInputWhenFocusTarget value="false"/>
+                  <visible value="false"/>
+                </properties>
+              </component>
+              <vspacer id="8d354">
+                <constraints/>
+              </vspacer>
+              <component id="7a100" class="javax.swing.JButton" binding="nextButtonEnterNum" custom-create="true">
+                <constraints/>
+                <properties>
+                  <alignmentX value="0.5"/>
+                  <autoscrolls value="false"/>
+                  <background color="-16731162"/>
+                  <borderPainted value="false"/>
+                  <contentAreaFilled value="true"/>
+                  <focusPainted value="true"/>
+                  <foreground color="-1"/>
+                  <hideActionText value="false"/>
+                  <horizontalAlignment value="0"/>
+                  <horizontalTextPosition value="0"/>
+                  <inheritsPopupMenu value="false"/>
+                  <margin top="0" left="0" bottom="0" right="0"/>
+                  <maximumSize width="339" height="64"/>
+                  <minimumSize width="339" height="64"/>
+                  <opaque value="false"/>
+                  <preferredSize width="339" height="64"/>
+                  <requestFocusEnabled value="true"/>
+                  <text value="ПРОДОЛЖИТЬ"/>
+                  <verifyInputWhenFocusTarget value="true"/>
+                  <verticalAlignment value="0"/>
+                  <verticalTextPosition value="0"/>
+                  <visible value="true"/>
+                </properties>
+              </component>
+              <vspacer id="74658">
+                <constraints/>
+              </vspacer>
+            </children>
+          </grid>
+          <grid id="a09b2" binding="EnterSMSCode" layout-manager="FlowLayout" hgap="5" vgap="5" flow-align="1">
+            <constraints>
+              <card name="EnterSMSCode"/>
+            </constraints>
+            <properties>
+              <focusable value="false"/>
+              <maximumSize width="800" height="570"/>
+              <minimumSize width="800" height="570"/>
+              <opaque value="false"/>
+              <preferredSize width="800" height="570"/>
+              <visible value="false"/>
+            </properties>
+            <border type="none"/>
+            <children>
+              <vspacer id="c58eb">
+                <constraints/>
+              </vspacer>
+              <grid id="dadc5" binding="Logo2" custom-create="true" layout-manager="FlowLayout" hgap="5" vgap="5" flow-align="1">
+                <constraints/>
+                <properties>
+                  <background color="-58880"/>
+                  <focusable value="false"/>
+                  <maximumSize width="124" height="98"/>
+                  <minimumSize width="124" height="98"/>
+                  <opaque value="false"/>
+                  <preferredSize width="124" height="98"/>
+                  <requestFocusEnabled value="false"/>
+                  <verifyInputWhenFocusTarget value="false"/>
+                </properties>
+                <border type="none"/>
+                <children/>
+              </grid>
+              <component id="5e6b3" class="javax.swing.JLabel" binding="labelTelephoneNumber">
+                <constraints/>
+                <properties>
+                  <alignmentX value="0.5"/>
+                  <autoscrolls value="true"/>
+                  <focusable value="false"/>
+                  <font name="Microsoft JhengHei Light" size="40" style="0"/>
+                  <foreground color="-1644826"/>
+                  <horizontalAlignment value="0"/>
+                  <horizontalTextPosition value="0"/>
+                  <maximumSize width="300" height="80"/>
+                  <minimumSize width="300" height="80"/>
+                  <preferredSize width="300" height="80"/>
+                  <requestFocusEnabled value="false"/>
+                  <text value=""/>
+                  <verifyInputWhenFocusTarget value="false"/>
+                </properties>
+              </component>
+              <component id="d2e38" class="javax.swing.JTextPane" binding="textPaneSMS">
+                <constraints/>
+                <properties>
+                  <editable value="false"/>
+                  <focusCycleRoot value="false"/>
+                  <focusable value="false"/>
+                  <font name="Microsoft JhengHei Light" size="16" style="0"/>
+                  <foreground color="-1644826"/>
+                  <margin top="10" left="20" bottom="20" right="20"/>
+                  <maximumSize width="400" height="120"/>
+                  <minimumSize width="400" height="120"/>
+                  <opaque value="false"/>
+                  <preferredSize width="400" height="120"/>
+                  <requestFocusEnabled value="false"/>
+                  <text value="На данный номер телефона было отправлено&#10;    SMS-сообщение с кодом подтверждения.&#10;   Пожалуйста, введите этот код в поле ниже:"/>
+                  <verifyInputWhenFocusTarget value="false"/>
+                </properties>
+              </component>
+              <component id="7f18b" class="javax.swing.JPasswordField" binding="textFieldEnterCode" custom-create="true">
+                <constraints/>
+                <properties>
+                  <caretColor color="-1644826"/>
+                  <disabledTextColor color="-1644826"/>
+                  <echoChar value="*"/>
+                  <focusCycleRoot value="true"/>
+                  <focusTraversalPolicyProvider value="true"/>
+                  <focusable value="true"/>
+                  <font name="Arial Black" size="18" style="0"/>
+                  <foreground color="-1644826"/>
+                  <horizontalAlignment value="0"/>
+                  <maximumSize width="150" height="45"/>
+                  <minimumSize width="150" height="45"/>
+                  <opaque value="false"/>
+                  <preferredSize width="150" height="45"/>
+                  <selectedTextColor color="-1644826"/>
+                </properties>
+              </component>
+              <component id="8a26e" class="javax.swing.JLabel" binding="invalidSMSCode">
+                <constraints/>
+                <properties>
+                  <alignmentX value="0.5"/>
+                  <focusable value="false"/>
+                  <font name="Microsoft JhengHei Light" size="16" style="0"/>
+                  <foreground color="-58880"/>
+                  <requestFocusEnabled value="false"/>
+                  <text value="Неправильный код подтверждения!"/>
+                  <verifyInputWhenFocusTarget value="false"/>
+                  <visible value="false"/>
+                </properties>
+              </component>
+              <vspacer id="6a706">
+                <constraints/>
+              </vspacer>
+              <component id="434bf" class="javax.swing.JButton" binding="nextButtonEnterSMS" custom-create="true">
+                <constraints/>
+                <properties>
+                  <alignmentX value="0.5"/>
+                  <background color="-16731162"/>
+                  <borderPainted value="false"/>
+                  <foreground color="-1644826"/>
+                  <horizontalTextPosition value="0"/>
+                  <maximumSize width="339" height="64"/>
+                  <minimumSize width="339" height="64"/>
+                  <opaque value="false"/>
+                  <preferredSize width="339" height="64"/>
+                  <text value="ПРОДОЛЖИТЬ"/>
+                </properties>
+              </component>
+              <vspacer id="8ac1c">
+                <constraints/>
+              </vspacer>
+            </children>
+          </grid>
+          <grid id="ee0f9" binding="Main" layout-manager="BorderLayout" hgap="0" vgap="0">
+            <constraints>
+              <card name="Main"/>
+            </constraints>
+            <properties>
+              <focusable value="false"/>
+              <maximumSize width="800" height="570"/>
+              <minimumSize width="800" height="570"/>
+              <opaque value="false"/>
+              <preferredSize width="800" height="570"/>
+              <requestFocusEnabled value="false"/>
+              <verifyInputWhenFocusTarget value="false"/>
+              <visible value="false"/>
+            </properties>
+            <border type="none"/>
+            <children>
+              <grid id="f6496" binding="Title" layout-manager="FlowLayout" hgap="10" vgap="5" flow-align="0">
+                <constraints border-constraint="North"/>
+                <properties>
+                  <background color="-16731162"/>
+                  <focusable value="false"/>
+                  <maximumSize width="800" height="40"/>
+                  <minimumSize width="800" height="40"/>
+                  <preferredSize width="800" height="40"/>
+                  <requestFocusEnabled value="false"/>
+                  <verifyInputWhenFocusTarget value="false"/>
+                </properties>
+                <border type="none"/>
+                <children>
+                  <grid id="ba8f8" binding="LogoMicro" custom-create="true" layout-manager="FlowLayout" hgap="5" vgap="5" flow-align="1">
+                    <constraints/>
+                    <properties>
+                      <focusable value="false"/>
+                      <maximumSize width="112" height="24"/>
+                      <minimumSize width="112" height="24"/>
+                      <opaque value="false"/>
+                      <preferredSize width="112" height="24"/>
+                      <requestFocusEnabled value="false"/>
+                      <verifyInputWhenFocusTarget value="false"/>
+                    </properties>
+                    <border type="none"/>
+                    <children/>
+                  </grid>
+                  <hspacer id="52479">
+                    <constraints/>
+                  </hspacer>
+                  <component id="c6185" class="javax.swing.JButton" binding="buttonPhoto" custom-create="true">
+                    <constraints/>
+                    <properties>
+                      <alignmentX value="0.5"/>
+                      <borderPainted value="false"/>
+                      <focusPainted value="false"/>
+                      <focusable value="false"/>
+                      <maximumSize width="29" height="29"/>
+                      <minimumSize width="29" height="29"/>
+                      <opaque value="false"/>
+                      <preferredSize width="29" height="29"/>
+                      <text value=""/>
+                      <verifyInputWhenFocusTarget value="false"/>
+                    </properties>
+                  </component>
+                  <component id="963ff" class="javax.swing.JLabel" binding="accountNameLabel">
+                    <constraints/>
+                    <properties>
+                      <alignmentX value="0.5"/>
+                      <focusable value="false"/>
+                      <font name="Microsoft JhengHei Light" size="16" style="0"/>
+                      <foreground color="-1644826"/>
+                      <horizontalTextPosition value="0"/>
+                      <maximumSize width="200" height="24"/>
+                      <minimumSize width="24" height="24"/>
+                      <preferredSize width="0" height="0"/>
+                      <requestFocusEnabled value="false"/>
+                      <text value=""/>
+                      <verifyInputWhenFocusTarget value="false"/>
+                    </properties>
+                  </component>
+                  <component id="f8425" class="javax.swing.JLabel" binding="accountSurnameLabel">
+                    <constraints/>
+                    <properties>
+                      <alignmentX value="0.5"/>
+                      <focusable value="false"/>
+                      <font name="Microsoft JhengHei Light" size="16" style="0"/>
+                      <foreground color="-1644826"/>
+                      <horizontalTextPosition value="0"/>
+                      <maximumSize width="300" height="24"/>
+                      <minimumSize width="24" height="24"/>
+                      <preferredSize width="0" height="0"/>
+                      <requestFocusEnabled value="false"/>
+                      <text value=""/>
+                      <verifyInputWhenFocusTarget value="false"/>
+                    </properties>
+                  </component>
+                  <component id="e44a6" class="javax.swing.JButton" binding="settingsButton" custom-create="true">
+                    <constraints/>
+                    <properties>
+                      <alignmentX value="0.5"/>
+                      <borderPainted value="false"/>
+                      <focusPainted value="false"/>
+                      <maximumSize width="21" height="21"/>
+                      <minimumSize width="21" height="21"/>
+                      <opaque value="false"/>
+                      <preferredSize width="31" height="21"/>
+                      <requestFocusEnabled value="false"/>
+                      <text value=""/>
+                      <verifyInputWhenFocusTarget value="false"/>
+                    </properties>
+                  </component>
+                </children>
+              </grid>
+              <grid id="9ec03" binding="Contacts" layout-manager="BorderLayout" hgap="0" vgap="0">
+                <constraints border-constraint="West"/>
+                <properties>
+                  <focusable value="false"/>
+                  <minimumSize width="200" height="500"/>
+                  <preferredSize width="250" height="500"/>
+                  <requestFocusEnabled value="false"/>
+                  <verifyInputWhenFocusTarget value="false"/>
+                </properties>
+                <border type="none"/>
+                <children>
+                  <grid id="4eb54" layout-manager="FlowLayout" hgap="20" vgap="5" flow-align="0">
+                    <constraints border-constraint="South"/>
+                    <properties>
+                      <background color="-1644826"/>
+                      <focusable value="false"/>
+                      <maximumSize width="200" height="40"/>
+                      <minimumSize width="200" height="40"/>
+                      <opaque value="true"/>
+                      <preferredSize width="200" height="40"/>
+                      <requestFocusEnabled value="false"/>
+                      <verifyInputWhenFocusTarget value="false"/>
+                    </properties>
+                    <border type="none"/>
+                    <children>
+                      <component id="b417" class="javax.swing.JButton" binding="addButton" custom-create="true" default-binding="true">
+                        <constraints/>
+                        <properties>
+                          <borderPainted value="false"/>
+                          <focusPainted value="false"/>
+                          <maximumSize width="26" height="26"/>
+                          <minimumSize width="26" height="26"/>
+                          <opaque value="false"/>
+                          <preferredSize width="26" height="26"/>
+                          <text value=""/>
+                        </properties>
+                      </component>
+                    </children>
+                  </grid>
+                  <grid id="6d339" binding="List" layout-manager="FlowLayout" hgap="0" vgap="0" flow-align="1">
+                    <constraints border-constraint="Center"/>
+                    <properties>
+                      <autoscrolls value="true"/>
+                      <background color="-1644826"/>
+                      <focusable value="false"/>
+                      <maximumSize width="200" height="490"/>
+                      <minimumSize width="200" height="490"/>
+                      <preferredSize width="200" height="490"/>
+                      <requestFocusEnabled value="false"/>
+                      <verifyInputWhenFocusTarget value="false"/>
+                    </properties>
+                    <border type="none"/>
+                    <children/>
+                  </grid>
+                  <grid id="95cd1" layout-manager="FlowLayout" hgap="0" vgap="0" flow-align="1">
+                    <constraints border-constraint="North"/>
+                    <properties>
+                      <focusable value="false"/>
+                      <opaque value="false"/>
+                      <preferredSize width="200" height="40"/>
+                      <requestFocusEnabled value="false"/>
+                      <verifyInputWhenFocusTarget value="false"/>
+                    </properties>
+                    <border type="none"/>
+                    <children>
+                      <component id="2ac80" class="javax.swing.JTextField" binding="searchTextField" custom-create="true">
+                        <constraints/>
+                        <properties>
+                          <background color="-1"/>
+                          <font name="Microsoft JhengHei Light" size="16" style="0"/>
+                          <foreground color="-1644826"/>
+                          <horizontalAlignment value="2"/>
+                          <inheritsPopupMenu value="false"/>
+                          <margin top="2" left="6" bottom="2" right="6"/>
+                          <maximumSize width="250" height="40"/>
+                          <minimumSize width="250" height="40"/>
+                          <opaque value="true"/>
+                          <preferredSize width="250" height="40"/>
+                          <text value="Поиск"/>
+                        </properties>
+                      </component>
+                    </children>
+                  </grid>
+                </children>
+              </grid>
+              <grid id="c0751" binding="Dialog" layout-manager="BorderLayout" hgap="0" vgap="5">
+                <constraints border-constraint="Center"/>
+                <properties>
+                  <autoscrolls value="true"/>
+                  <background color="-1"/>
+                  <focusable value="false"/>
+                  <foreground color="-1"/>
+                  <minimumSize width="500" height="500"/>
+                  <preferredSize width="500" height="500"/>
+                </properties>
+                <border type="none"/>
+                <children>
+                  <grid id="81fe0" binding="ContactInformation" layout-manager="FlowLayout" hgap="5" vgap="5" flow-align="1">
+                    <constraints border-constraint="North"/>
+                    <properties>
+                      <enabled value="true"/>
+                      <focusable value="false"/>
+                      <maximumSize width="600" height="40"/>
+                      <minimumSize width="600" height="40"/>
+                      <opaque value="false"/>
+                      <preferredSize width="600" height="40"/>
+                      <requestFocusEnabled value="false"/>
+                      <verifyInputWhenFocusTarget value="false"/>
+                      <visible value="true"/>
+                    </properties>
+                    <border type="line">
+                      <color color="-1644826"/>
+                    </border>
+                    <children>
+                      <component id="ab423" class="javax.swing.JButton" binding="contactPhoto" custom-create="true">
+                        <constraints/>
+                        <properties>
+                          <borderPainted value="false"/>
+                          <focusPainted value="false"/>
+                          <focusable value="false"/>
+                          <maximumSize width="29" height="29"/>
+                          <minimumSize width="29" height="29"/>
+                          <opaque value="false"/>
+                          <preferredSize width="29" height="29"/>
+                          <text value=""/>
+                          <verifyInputWhenFocusTarget value="false"/>
+                          <visible value="false"/>
+                        </properties>
+                      </component>
+                      <component id="c632a" class="javax.swing.JLabel" binding="contactNameLabel">
+                        <constraints/>
+                        <properties>
+                          <alignmentX value="0.5"/>
+                          <focusable value="false"/>
+                          <font name="Microsoft JhengHei Light" size="16" style="0"/>
+                          <foreground color="-9079435"/>
+                          <maximumSize width="100" height="29"/>
+                          <minimumSize width="100" height="29"/>
+                          <preferredSize width="100" height="29"/>
+                          <requestFocusEnabled value="false"/>
+                          <text value=""/>
+                          <verifyInputWhenFocusTarget value="false"/>
+                          <visible value="false"/>
+                        </properties>
+                      </component>
+                      <hspacer id="3a429">
+                        <constraints/>
+                      </hspacer>
+                      <component id="c689b" class="javax.swing.JButton" binding="editContactButton" custom-create="true">
+                        <constraints/>
+                        <properties>
+                          <borderPainted value="false"/>
+                          <focusPainted value="false"/>
+                          <focusable value="false"/>
+                          <maximumSize width="18" height="18"/>
+                          <minimumSize width="18" height="18"/>
+                          <opaque value="false"/>
+                          <preferredSize width="18" height="18"/>
+                          <requestFocusEnabled value="false"/>
+                          <text value=""/>
+                          <verifyInputWhenFocusTarget value="false"/>
+                          <visible value="false"/>
+                        </properties>
+                      </component>
+                    </children>
+                  </grid>
+                  <grid id="ff405" binding="EnterMessage" layout-manager="FlowLayout" hgap="0" vgap="5" flow-align="1">
+                    <constraints border-constraint="South"/>
+                    <properties>
+                      <focusable value="false"/>
+                      <maximumSize width="600" height="400"/>
+                      <minimumSize width="600" height="60"/>
+                      <opaque value="false"/>
+                      <preferredSize width="600" height="60"/>
+                      <requestFocusEnabled value="false"/>
+                      <verifyInputWhenFocusTarget value="false"/>
+                    </properties>
+                    <border type="none"/>
+                    <children>
+                      <hspacer id="ca7be">
+                        <constraints/>
+                      </hspacer>
+                      <component id="a5aea" class="javax.swing.JTextArea" binding="textFieldEnterMassage">
+                        <constraints/>
+                        <properties>
+                          <alignmentY value="0.0"/>
+                          <background color="-1644826"/>
+                          <columns value="0"/>
+                          <doubleBuffered value="false"/>
+                          <enabled value="true"/>
+                          <focusCycleRoot value="true"/>
+                          <focusTraversalPolicyProvider value="true"/>
+                          <focusable value="true"/>
+                          <font name="Microsoft JhengHei Light" size="18" style="0"/>
+                          <foreground color="-9539986"/>
+                          <lineWrap value="true"/>
+                          <margin top="8" left="6" bottom="2" right="6"/>
+                          <maximumSize width="440" height="45"/>
+                          <minimumSize width="440" height="45"/>
+                          <preferredSize width="440" height="260"/>
+                          <requestFocusEnabled value="true"/>
+                          <rows value="10"/>
+                          <text value="Введите сообщение"/>
+                          <verifyInputWhenFocusTarget value="true"/>
+                          <visible value="false"/>
+                          <wrapStyleWord value="true"/>
+                        </properties>
+                      </component>
+                      <component id="f4067" class="javax.swing.JButton" binding="sendButton" custom-create="true">
+                        <constraints/>
+                        <properties>
+                          <alignmentX value="0.5"/>
+                          <alignmentY value="0.0"/>
+                          <borderPainted value="false"/>
+                          <focusPainted value="false"/>
+                          <focusable value="false"/>
+                          <maximumSize width="57" height="45"/>
+                          <minimumSize width="57" height="45"/>
+                          <opaque value="false"/>
+                          <preferredSize width="57" height="45"/>
+                          <requestFocusEnabled value="false"/>
+                          <text value="Button"/>
+                          <visible value="false"/>
+                        </properties>
+                      </component>
+                      <hspacer id="90432">
+                        <constraints/>
+                      </hspacer>
+                    </children>
+                  </grid>
+                  <grid id="3252" binding="Dialogs" layout-manager="CardLayout" hgap="0" vgap="0">
+                    <constraints border-constraint="Center"/>
+                    <properties>
+                      <focusCycleRoot value="true"/>
+                      <focusTraversalPolicyProvider value="true"/>
+                      <focusable value="true"/>
+                      <foreground color="-1"/>
+                      <opaque value="false"/>
+                      <preferredSize width="600" height="400"/>
+                      <requestFocusEnabled value="true"/>
+                      <verifyInputWhenFocusTarget value="true"/>
+                    </properties>
+                    <border type="none"/>
+                    <children/>
+                  </grid>
+                </children>
+              </grid>
+            </children>
+          </grid>
+          <grid id="c35b2" binding="Registration" layout-manager="FlowLayout" hgap="5" vgap="5" flow-align="1">
+            <constraints>
+              <card name="Registration"/>
+            </constraints>
+            <properties>
+              <focusCycleRoot value="false"/>
+              <focusTraversalPolicyProvider value="false"/>
+              <maximumSize width="800" height="570"/>
+              <minimumSize width="800" height="570"/>
+              <opaque value="false"/>
+              <preferredSize width="800" height="570"/>
+              <visible value="false"/>
+            </properties>
+            <border type="none"/>
+            <children>
+              <vspacer id="c4047">
+                <constraints/>
+              </vspacer>
+              <grid id="e39ec" binding="Logo3" custom-create="true" layout-manager="FlowLayout" hgap="5" vgap="5" flow-align="1">
+                <constraints/>
+                <properties>
+                  <focusable value="false"/>
+                  <maximumSize width="124" height="98"/>
+                  <minimumSize width="124" height="98"/>
+                  <opaque value="false"/>
+                  <preferredSize width="124" height="98"/>
+                </properties>
+                <border type="none"/>
+                <children/>
+              </grid>
+              <component id="52633" class="javax.swing.JTextPane" binding="textPaneReg">
+                <constraints/>
+                <properties>
+                  <editable value="false"/>
+                  <focusCycleRoot value="false"/>
+                  <focusable value="false"/>
+                  <font name="Microsoft JhengHei Light" size="16" style="0"/>
+                  <foreground color="-1644826"/>
+                  <margin top="30" left="20" bottom="20" right="20"/>
+                  <maximumSize width="400" height="120"/>
+                  <minimumSize width="400" height="120"/>
+                  <opaque value="false"/>
+                  <preferredSize width="400" height="120"/>
+                  <requestFocusEnabled value="false"/>
+                  <text value="Введите ваше имя и фамилию и установите&#10; фотографию для завершения регистрации"/>
+                  <verifyInputWhenFocusTarget value="false"/>
+                </properties>
+              </component>
+              <grid id="bf962" layout-manager="BorderLayout" hgap="10" vgap="0">
+                <constraints/>
+                <properties>
+                  <focusable value="false"/>
+                  <maximumSize width="400" height="150"/>
+                  <minimumSize width="400" height="150"/>
+                  <opaque value="false"/>
+                  <preferredSize width="400" height="150"/>
+                </properties>
+                <border type="none"/>
+                <children>
+                  <grid id="88765" binding="FIO" layout-manager="FlowLayout" hgap="5" vgap="5" flow-align="1">
+                    <constraints border-constraint="Center"/>
+                    <properties>
+                      <maximumSize width="250" height="200"/>
+                      <minimumSize width="250" height="200"/>
+                      <opaque value="false"/>
+                      <preferredSize width="250" height="200"/>
+                    </properties>
+                    <border type="none"/>
+                    <children>
+                      <component id="351e1" class="javax.swing.JTextField" binding="nameRegistrationTextField">
+                        <constraints/>
+                        <properties>
+                          <font name="Microsoft JhengHei Light" size="36" style="0"/>
+                          <foreground color="-1644826"/>
+                          <maximumSize width="250" height="50"/>
+                          <minimumSize width="250" height="50"/>
+                          <opaque value="false"/>
+                          <preferredSize width="250" height="50"/>
+                          <text value="Имя"/>
+                        </properties>
+                      </component>
+                      <component id="80c0" class="javax.swing.JTextField" binding="surnameRegistrationTextField">
+                        <constraints/>
+                        <properties>
+                          <autoscrolls value="true"/>
+                          <font name="Microsoft JhengHei Light" size="36" style="0"/>
+                          <foreground color="-1644826"/>
+                          <horizontalAlignment value="10"/>
+                          <maximumSize width="250" height="50"/>
+                          <minimumSize width="250" height="50"/>
+                          <opaque value="false"/>
+                          <preferredSize width="250" height="50"/>
+                          <text value="Фамилия"/>
+                        </properties>
+                      </component>
+                    </children>
+                  </grid>
+                </children>
+              </grid>
+              <vspacer id="e6c8a">
+                <constraints/>
+              </vspacer>
+              <component id="8fecc" class="javax.swing.JButton" binding="nextButton3" custom-create="true">
+                <constraints/>
+                <properties>
+                  <alignmentX value="0.5"/>
+                  <background color="-16731162"/>
+                  <borderPainted value="false"/>
+                  <foreground color="-1644826"/>
+                  <horizontalTextPosition value="0"/>
+                  <maximumSize width="339" height="64"/>
+                  <minimumSize width="339" height="64"/>
+                  <opaque value="false"/>
+                  <preferredSize width="339" height="64"/>
+                  <text value="ЗАВЕРШИТЬ"/>
+                </properties>
+              </component>
+              <vspacer id="d719d">
+                <constraints/>
+              </vspacer>
+            </children>
+          </grid>
+          <grid id="84bc5" binding="ProfileSetting" layout-manager="FlowLayout" hgap="5" vgap="5" flow-align="1">
+            <constraints>
+              <card name="ProfileSetting"/>
+            </constraints>
+            <properties>
+              <background color="-15132391"/>
+              <doubleBuffered value="true"/>
+              <focusCycleRoot value="true"/>
+              <focusTraversalPolicyProvider value="true"/>
+              <maximumSize width="800" height="570"/>
+              <minimumSize width="800" height="570"/>
+              <opaque value="true"/>
+              <preferredSize width="800" height="570"/>
+              <visible value="false"/>
+            </properties>
+            <border type="none"/>
+            <children>
+              <component id="a2b56" class="javax.swing.JLabel" binding="labelSetting">
+                <constraints/>
+                <properties>
+                  <alignmentX value="0.5"/>
+                  <font name="Microsoft JhengHei Light" size="36" style="0"/>
+                  <foreground color="-16731162"/>
+                  <horizontalAlignment value="0"/>
+                  <horizontalTextPosition value="0"/>
+                  <maximumSize width="350" height="49"/>
+                  <minimumSize width="350" height="49"/>
+                  <preferredSize width="700" height="200"/>
+                  <text value="Настройки профиля"/>
+                </properties>
+              </component>
+              <component id="d4bcf" class="javax.swing.JTextField" binding="nameSettingTextField">
+                <constraints/>
+                <properties>
+                  <caretColor color="-1644826"/>
+                  <font name="Microsoft JhengHei Light" size="36" style="0"/>
+                  <foreground color="-1644826"/>
+                  <maximumSize width="250" height="50"/>
+                  <minimumSize width="250" height="50"/>
+                  <opaque value="false"/>
+                  <preferredSize width="250" height="50"/>
+                  <text value=""/>
+                </properties>
+              </component>
+              <component id="fcff6" class="javax.swing.JTextField" binding="surNameSettingTextField">
+                <constraints/>
+                <properties>
+                  <autoscrolls value="true"/>
+                  <caretColor color="-1644826"/>
+                  <font name="Microsoft JhengHei Light" size="36" style="0"/>
+                  <foreground color="-1644826"/>
+                  <horizontalAlignment value="10"/>
+                  <maximumSize width="250" height="50"/>
+                  <minimumSize width="250" height="50"/>
+                  <opaque value="false"/>
+                  <preferredSize width="250" height="50"/>
+                  <text value=""/>
+                </properties>
+              </component>
+              <vspacer id="ccadf">
+                <constraints/>
+              </vspacer>
+              <component id="c7038" class="javax.swing.JButton" binding="saveSettingButton" custom-create="true">
+                <constraints/>
+                <properties>
+                  <alignmentX value="0.5"/>
+                  <background color="-16731162"/>
+                  <borderPainted value="false"/>
+                  <contentAreaFilled value="false"/>
+                  <focusPainted value="false"/>
+                  <foreground color="-1644826"/>
+                  <horizontalTextPosition value="0"/>
+                  <maximumSize width="339" height="64"/>
+                  <minimumSize width="339" height="64"/>
+                  <opaque value="false"/>
+                  <preferredSize width="339" height="64"/>
+                  <text value="СОХРАНИТЬ"/>
+                </properties>
+              </component>
+              <vspacer id="d994b">
+                <constraints/>
+              </vspacer>
+              <grid id="ab3e9" binding="SettingPanel" layout-manager="FlowLayout" hgap="5" vgap="5" flow-align="1">
+                <constraints/>
+                <properties>
+                  <doubleBuffered value="false"/>
+                  <focusable value="false"/>
+                  <maximumSize width="680" height="80"/>
+                  <minimumSize width="680" height="80"/>
+                  <opaque value="false"/>
+                  <preferredSize width="680" height="80"/>
+                  <requestFocusEnabled value="false"/>
+                  <verifyInputWhenFocusTarget value="false"/>
+                </properties>
+                <border type="none"/>
+                <children>
+                  <component id="a300" class="javax.swing.JButton" binding="settingBackButton" custom-create="true">
+                    <constraints/>
+                    <properties>
+                      <borderPainted value="false"/>
+                      <contentAreaFilled value="false"/>
+                      <focusPainted value="false"/>
+                      <maximumSize width="35" height="35"/>
+                      <minimumSize width="35" height="35"/>
+                      <opaque value="false"/>
+                      <preferredSize width="35" height="35"/>
+                      <text value=""/>
+                    </properties>
+                  </component>
+                  <hspacer id="1a08e">
+                    <constraints/>
+                  </hspacer>
+                  <component id="6da3b" class="javax.swing.JLabel" binding="phoneNumberLabel">
+                    <constraints/>
+                    <properties>
+                      <font name="Microsoft JhengHei Light" size="18" style="0"/>
+                      <foreground color="-983553"/>
+                      <horizontalAlignment value="4"/>
+                      <horizontalTextPosition value="4"/>
+                      <maximumSize width="320" height="32"/>
+                      <minimumSize width="100" height="32"/>
+                      <preferredSize width="200" height="32"/>
+                      <text value=""/>
+                    </properties>
+                  </component>
+                  <component id="b87de" class="javax.swing.JButton" binding="exitButton">
+                    <constraints/>
+                    <properties>
+                      <borderPainted value="true"/>
+                      <contentAreaFilled value="false"/>
+                      <focusPainted value="false"/>
+                      <focusable value="true"/>
+                      <font name="Microsoft JhengHei Light" size="18" style="0"/>
+                      <foreground color="-16731162"/>
+                      <opaque value="false"/>
+                      <text value="выйти"/>
+                    </properties>
+                  </component>
+                </children>
+              </grid>
+            </children>
+          </grid>
+          <grid id="d49a7" binding="AddContact" layout-manager="FlowLayout" hgap="5" vgap="5" flow-align="1">
+            <constraints>
+              <card name="AddContact"/>
+            </constraints>
+            <properties>
+              <background color="-15395563"/>
+              <maximumSize width="800" height="570"/>
+              <minimumSize width="800" height="570"/>
+              <preferredSize width="800" height="570"/>
+            </properties>
+            <border type="none"/>
+            <children>
+              <component id="d4961" class="javax.swing.JLabel" binding="labelAddContact">
+                <constraints/>
+                <properties>
+                  <alignmentX value="0.5"/>
+                  <focusable value="false"/>
+                  <font name="Microsoft JhengHei Light" size="36" style="0"/>
+                  <foreground color="-16731162"/>
+                  <horizontalAlignment value="0"/>
+                  <horizontalTextPosition value="0"/>
+                  <maximumSize width="700" height="100"/>
+                  <minimumSize width="700" height="100"/>
+                  <preferredSize width="700" height="100"/>
+                  <requestFocusEnabled value="false"/>
+                  <text value="Добавление контакта"/>
+                  <verifyInputWhenFocusTarget value="false"/>
+                  <verticalAlignment value="3"/>
+                  <verticalTextPosition value="0"/>
+                </properties>
+              </component>
+              <component id="18570" class="javax.swing.JTextArea" binding="textAreaAddContact">
+                <constraints/>
+                <properties>
+                  <editable value="false"/>
+                  <focusable value="false"/>
+                  <font name="Microsoft JhengHei Light" size="16" style="0"/>
+                  <foreground color="-1644826"/>
+                  <margin top="10" left="65" bottom="0" right="0"/>
+                  <maximumSize width="400" height="100"/>
+                  <minimumSize width="400" height="100"/>
+                  <opaque value="false"/>
+                  <preferredSize width="400" height="80"/>
+                  <requestFocusEnabled value="false"/>
+                  <tabSize value="8"/>
+                  <text value="     Введите код страны и номер &#10;мобильного телефона пользователя"/>
+                  <verifyInputWhenFocusTarget value="false"/>
+                </properties>
+              </component>
+              <component id="a864d" class="javax.swing.JTextField" binding="enterNumberContactTextField" custom-create="true">
+                <constraints/>
+                <properties>
+                  <caretColor color="-1644826"/>
+                  <dragEnabled value="false"/>
+                  <focusCycleRoot value="true"/>
+                  <focusTraversalPolicyProvider value="true"/>
+                  <font name="Microsoft JhengHei Light" size="40" style="0"/>
+                  <foreground color="-1644826"/>
+                  <horizontalAlignment value="2"/>
+                  <maximumSize width="350" height="45"/>
+                  <minimumSize width="350" height="45"/>
+                  <opaque value="false"/>
+                  <preferredSize width="350" height="45"/>
+                  <text value="+7"/>
+                </properties>
+                <clientProperties>
+                  <caretWidth class="java.lang.Integer" value="2"/>
+                </clientProperties>
+              </component>
+              <component id="f6d2" class="javax.swing.JTextField" binding="contactNameTextField">
+                <constraints/>
+                <properties>
+                  <caretColor color="-1644826"/>
+                  <font name="Microsoft JhengHei Light" size="36" style="0"/>
+                  <foreground color="-1644826"/>
+                  <horizontalAlignment value="0"/>
+                  <maximumSize width="350" height="65"/>
+                  <minimumSize width="350" height="65"/>
+                  <opaque value="false"/>
+                  <preferredSize width="350" height="65"/>
+                  <text value="Имя"/>
+                </properties>
+              </component>
+              <component id="8094d" class="javax.swing.JTextField" binding="contactSurnameTextField">
+                <constraints/>
+                <properties>
+                  <caretColor color="-1644826"/>
+                  <font name="Microsoft JhengHei Light" size="36" style="0"/>
+                  <foreground color="-1644826"/>
+                  <horizontalAlignment value="0"/>
+                  <maximumSize width="350" height="65"/>
+                  <minimumSize width="350" height="65"/>
+                  <opaque value="false"/>
+                  <preferredSize width="350" height="85"/>
+                  <text value="Фамилия"/>
+                </properties>
+              </component>
+              <component id="1ed47" class="javax.swing.JLabel" binding="contactNotFound">
+                <constraints/>
+                <properties>
+                  <alignmentX value="0.5"/>
+                  <focusable value="false"/>
+                  <font name="Microsoft JhengHei Light" size="16" style="0"/>
+                  <foreground color="-58880"/>
+                  <requestFocusEnabled value="false"/>
+                  <text value="Контакт не найден!"/>
+                  <verifyInputWhenFocusTarget value="false"/>
+                  <visible value="false"/>
+                </properties>
+              </component>
+              <vspacer id="427ec">
+                <constraints/>
+              </vspacer>
+              <component id="1c2fe" class="javax.swing.JButton" binding="addContactButton" custom-create="true">
+                <constraints/>
+                <properties>
+                  <alignmentX value="0.5"/>
+                  <background color="-16731162"/>
+                  <borderPainted value="false"/>
+                  <contentAreaFilled value="false"/>
+                  <focusPainted value="false"/>
+                  <foreground color="-1644826"/>
+                  <horizontalTextPosition value="0"/>
+                  <maximumSize width="339" height="64"/>
+                  <minimumSize width="339" height="64"/>
+                  <opaque value="false"/>
+                  <preferredSize width="339" height="64"/>
+                  <text value="ДОБАВИТЬ"/>
+                </properties>
+              </component>
+              <vspacer id="e6490">
+                <constraints/>
+              </vspacer>
+              <grid id="725ff" layout-manager="FlowLayout" hgap="5" vgap="5" flow-align="0">
+                <constraints/>
+                <properties>
+                  <focusable value="false"/>
+                  <maximumSize width="680" height="80"/>
+                  <minimumSize width="680" height="80"/>
+                  <opaque value="false"/>
+                  <preferredSize width="680" height="80"/>
+                  <requestFocusEnabled value="false"/>
+                  <verifyInputWhenFocusTarget value="false"/>
+                </properties>
+                <border type="none"/>
+                <children>
+                  <component id="d5e69" class="javax.swing.JButton" binding="backButtonAddContact" custom-create="true">
+                    <constraints/>
+                    <properties>
+                      <borderPainted value="false"/>
+                      <contentAreaFilled value="false"/>
+                      <focusPainted value="false"/>
+                      <maximumSize width="35" height="35"/>
+                      <minimumSize width="35" height="35"/>
+                      <opaque value="false"/>
+                      <preferredSize width="35" height="35"/>
+                      <text value=""/>
+                    </properties>
+                  </component>
+                </children>
+              </grid>
+            </children>
+          </grid>
+          <grid id="b722a" binding="EditContactPanel" layout-manager="FlowLayout" hgap="5" vgap="5" flow-align="1">
+            <constraints>
+              <card name="EditContactPanel"/>
+            </constraints>
+            <properties>
+              <background color="-15395563"/>
+              <focusable value="false"/>
+              <maximumSize width="800" height="570"/>
+              <minimumSize width="800" height="570"/>
+              <preferredSize width="800" height="570"/>
+              <requestFocusEnabled value="false"/>
+              <verifyInputWhenFocusTarget value="false"/>
+            </properties>
+            <border type="none"/>
+            <children>
+              <component id="93bc9" class="javax.swing.JLabel" binding="labelEditContact">
+                <constraints/>
+                <properties>
+                  <alignmentX value="0.5"/>
+                  <focusable value="false"/>
+                  <font name="Microsoft JhengHei Light" size="36" style="0"/>
+                  <foreground color="-16731162"/>
+                  <horizontalAlignment value="0"/>
+                  <horizontalTextPosition value="0"/>
+                  <maximumSize width="700" height="100"/>
+                  <minimumSize width="700" height="100"/>
+                  <preferredSize width="700" height="150"/>
+                  <requestFocusEnabled value="false"/>
+                  <text value="Редактирование контакта"/>
+                  <verifyInputWhenFocusTarget value="false"/>
+                  <verticalAlignment value="0"/>
+                  <verticalTextPosition value="0"/>
+                </properties>
+              </component>
+              <component id="b6fb9" class="javax.swing.JTextField" binding="textFieldContactName" custom-create="true">
+                <constraints/>
+                <properties>
+                  <background color="-15132391"/>
+                  <dragEnabled value="false"/>
+                  <focusCycleRoot value="true"/>
+                  <focusTraversalPolicyProvider value="true"/>
+                  <font name="Microsoft JhengHei Light" size="28" style="0"/>
+                  <foreground color="-1644826"/>
+                  <horizontalAlignment value="0"/>
+                  <inheritsPopupMenu value="false"/>
+                  <margin top="2" left="6" bottom="2" right="6"/>
+                  <maximumSize width="400" height="45"/>
+                  <minimumSize width="400" height="45"/>
+                  <opaque value="false"/>
+                  <preferredSize width="400" height="68"/>
+                  <text value=""/>
+                </properties>
+                <clientProperties>
+                  <caretWidth class="java.lang.Integer" value="2"/>
+                </clientProperties>
+              </component>
+              <vspacer id="e1f26">
+                <constraints/>
+              </vspacer>
+              <grid id="7eaa4" layout-manager="FlowLayout" hgap="5" vgap="30" flow-align="1">
+                <constraints/>
+                <properties>
+                  <focusable value="false"/>
+                  <maximumSize width="500" height="50"/>
+                  <minimumSize width="500" height="50"/>
+                  <opaque value="false"/>
+                  <preferredSize width="500" height="80"/>
+                  <requestFocusEnabled value="false"/>
+                  <verifyInputWhenFocusTarget value="false"/>
+                </properties>
+                <border type="none"/>
+                <children>
+                  <component id="a9563" class="javax.swing.JLabel" binding="contactPhoneNumberLabel">
+                    <constraints/>
+                    <properties>
+                      <font name="Microsoft JhengHei Light" size="18" style="0"/>
+                      <foreground color="-983553"/>
+                      <horizontalAlignment value="2"/>
+                      <horizontalTextPosition value="2"/>
+                      <maximumSize width="320" height="32"/>
+                      <minimumSize width="100" height="32"/>
+                      <preferredSize width="150" height="32"/>
+                      <text value=""/>
+                    </properties>
+                  </component>
+                  <component id="36288" class="javax.swing.JButton" binding="deleteContactButton" custom-create="true">
+                    <constraints/>
+                    <properties>
+                      <contentAreaFilled value="false"/>
+                      <focusPainted value="false"/>
+                      <font name="Microsoft JhengHei Light" size="16" style="0"/>
+                      <foreground color="-438963"/>
+                      <horizontalAlignment value="0"/>
+                      <horizontalTextPosition value="0"/>
+                      <margin top="0" left="0" bottom="0" right="0"/>
+                      <maximumSize width="250" height="38"/>
+                      <minimumSize width="250" height="38"/>
+                      <opaque value="false"/>
+                      <preferredSize width="210" height="38"/>
+                      <text value="удалить пользователя"/>
+                      <verticalAlignment value="0"/>
+                      <verticalTextPosition value="0"/>
+                    </properties>
+                  </component>
+                </children>
+              </grid>
+              <vspacer id="d6bd9">
+                <constraints/>
+              </vspacer>
+              <component id="17739" class="javax.swing.JButton" binding="saveEditContactButton" custom-create="true">
+                <constraints/>
+                <properties>
+                  <alignmentX value="0.5"/>
+                  <background color="-16731162"/>
+                  <borderPainted value="false"/>
+                  <contentAreaFilled value="false"/>
+                  <focusPainted value="false"/>
+                  <foreground color="-1644826"/>
+                  <horizontalTextPosition value="0"/>
+                  <maximumSize width="339" height="64"/>
+                  <minimumSize width="339" height="64"/>
+                  <opaque value="false"/>
+                  <preferredSize width="339" height="64"/>
+                  <text value="СОХРАНИТЬ"/>
+                </properties>
+              </component>
+              <vspacer id="4c6e5">
+                <constraints/>
+              </vspacer>
+              <grid id="807ba" layout-manager="FlowLayout" hgap="5" vgap="5" flow-align="0">
+                <constraints/>
+                <properties>
+                  <focusable value="false"/>
+                  <maximumSize width="680" height="80"/>
+                  <minimumSize width="680" height="80"/>
+                  <opaque value="false"/>
+                  <preferredSize width="680" height="80"/>
+                  <requestFocusEnabled value="false"/>
+                  <verifyInputWhenFocusTarget value="false"/>
+                </properties>
+                <border type="none"/>
+                <children>
+                  <component id="5e294" class="javax.swing.JButton" binding="backButtonEditContact" custom-create="true">
+                    <constraints/>
+                    <properties>
+                      <background color="-9079435"/>
+                      <borderPainted value="false"/>
+                      <contentAreaFilled value="false"/>
+                      <focusPainted value="false"/>
+                      <maximumSize width="35" height="35"/>
+                      <minimumSize width="35" height="35"/>
+                      <opaque value="false"/>
+                      <preferredSize width="35" height="35"/>
+                      <text value=""/>
+                    </properties>
+                  </component>
+                </children>
+              </grid>
+            </children>
+          </grid>
+        </children>
+      </grid>
+      <grid id="6407f" binding="Bar" layout-manager="FlowLayout" hgap="5" vgap="5" flow-align="2">
+        <constraints border-constraint="North"/>
+        <properties>
+          <background color="-1644826"/>
+          <focusable value="false"/>
+          <maximumSize width="800" height="30"/>
+          <minimumSize width="800" height="30"/>
+          <preferredSize width="800" height="30"/>
+          <requestFocusEnabled value="false"/>
+          <verifyInputWhenFocusTarget value="false"/>
+        </properties>
+        <border type="none"/>
+        <children>
+          <component id="e9fc3" class="javax.swing.JButton" binding="minimizeButton" custom-create="true">
+            <constraints/>
+            <properties>
+              <alignmentY value="0.0"/>
+              <background color="-1644826"/>
+              <borderPainted value="false"/>
+              <focusPainted value="false"/>
+              <focusable value="false"/>
+              <maximumSize width="18" height="18"/>
+              <minimumSize width="18" height="18"/>
+              <opaque value="false"/>
+              <preferredSize width="18" height="18"/>
+              <rolloverEnabled value="true"/>
+              <text value=""/>
+            </properties>
+          </component>
+          <component id="24763" class="javax.swing.JButton" binding="closeButton" custom-create="true">
+            <constraints/>
+            <properties>
+              <alignmentY value="0.0"/>
+              <background color="-1644826"/>
+              <borderPainted value="false"/>
+              <contentAreaFilled value="true"/>
+              <doubleBuffered value="true"/>
+              <focusPainted value="false"/>
+              <focusable value="false"/>
+              <maximumSize width="18" height="18"/>
+              <minimumSize width="18" height="18"/>
+              <opaque value="true"/>
+              <preferredSize width="18" height="18"/>
+              <rolloverEnabled value="true"/>
+              <text value=""/>
+            </properties>
+          </component>
+        </children>
+      </grid>
+    </children>
+  </grid>
+</form>
