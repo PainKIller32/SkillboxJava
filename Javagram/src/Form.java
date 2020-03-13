@@ -1,12 +1,14 @@
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.border.Border;
+import javax.swing.plaf.basic.BasicScrollBarUI;
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-import java.util.function.*;
+import java.util.function.BiConsumer;
+import java.util.function.Consumer;
 
 public class Form {
     private JPanel RootPanel;
@@ -74,24 +76,22 @@ public class Form {
     private JLabel labelEditContact;
     private JLabel contactPhoneNumberLabel;
     private JLabel accountSurnameLabel;
-    private JTextField contactNameTextField;
-    private JTextField contactSurnameTextField;
-    private JLabel contactNotFound;
-    private JLabel invalidPhoneNumber;
-    private JLabel invalidSMSCode;
+    private JScrollPane contactScrollPane;
 
     private Contact activeContact;
     private Action onMinimize;
-    private Supplier<Boolean> onLogOut;
-    private ThreeFunction onAddContact;
-    private Predicate<String> onEnterNumber;
-    private Consumer<JPanel> onLogInComplete;
-    private Function<String, Boolean> onEnterSMSCode;
+    private Action onClose;
+    private Action onLogOut;
+    private Consumer<String> onSearch;
+    private Consumer<String> onAddContact;
+    private Consumer<String> onEnterNumber;
+    private Consumer<String> onEnterSMSCode;
     private BiConsumer<String, String> onSaveSetting;
-    private Function<Integer, Boolean> onDeleteContact;
+    private Consumer<Integer> onDeleteContact;
     private BiConsumer<String, String> onRegistrationComplete;
+    private BiConsumer<Integer, String> onSendMessage;
+    private BiConsumer<Integer, String> onEditContact;
 
-    private BufferedImage accountPhoto;
     private BufferedImage buttonBackground;
     private BufferedImage editContactPhoto;
     private Font openSansRegular22;
@@ -116,8 +116,6 @@ public class Form {
         exitButton.setBorder(BorderFactory.createMatteBorder(0, 0, 2, 0, colorBlue));
         textFieldContactName.setBorder(BorderFactory.createEmptyBorder(0, 75, 10, 5));
         textFieldEnterNumber.setBorder(BorderFactory.createCompoundBorder(bottomLineBorder, BorderFactory.createEmptyBorder(0, 40, 0, 0)));
-        contactNameTextField.setBorder(BorderFactory.createCompoundBorder(bottomLineBorder, BorderFactory.createEmptyBorder(20, 10, 0, 0)));
-        contactSurnameTextField.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createEmptyBorder(20, 0, 20, 0), bottomLineBorder));
         enterNumberContactTextField.setBorder(BorderFactory.createCompoundBorder(bottomLineBorder, BorderFactory.createEmptyBorder(0, 30, 0, 0)));
         deleteContactButton.setBorder(BorderFactory.createCompoundBorder(
                 BorderFactory.createMatteBorder(3, 3, 3, 3, colorRed),
@@ -127,6 +125,76 @@ public class Form {
                 BorderFactory.createEmptyBorder(8, 0, 0, 0),
                 BorderFactory.createLineBorder(colorWhite, 2, true))
         );
+        contactScrollPane.setBorder(BorderFactory.createEmptyBorder());
+        contactScrollPane.getVerticalScrollBar().setOpaque(false);
+
+        contactScrollPane.setLayout(new ScrollPaneLayout() {
+            @Override
+            public void layoutContainer(Container parent) {
+                JScrollPane scrollPane = (JScrollPane) parent;
+
+                Rectangle availR = scrollPane.getBounds();
+                availR.x = availR.y = 0;
+
+                Insets insets = parent.getInsets();
+                availR.x = insets.left;
+                availR.y = insets.top;
+                availR.width -= insets.left + insets.right;
+                availR.height -= insets.top + insets.bottom - 50;
+
+                Rectangle vsbR = new Rectangle();
+                vsbR.width = 12;
+                vsbR.height = availR.height;
+                vsbR.x = availR.x + availR.width - vsbR.width;
+                vsbR.y = availR.y;
+
+                if (viewport != null) {
+                    viewport.setBounds(availR);
+                }
+                if (vsb != null) {
+                    vsb.setVisible(true);
+                    vsb.setBounds(vsbR);
+                }
+            }
+        });
+
+        contactScrollPane.getVerticalScrollBar().setUI(new BasicScrollBarUI() {
+            private final Dimension d = new Dimension();
+
+            @Override
+            protected JButton createIncreaseButton(int orientation) {
+                return new JButton() {
+                    @Override
+                    public Dimension getPreferredSize() {
+                        return d;
+                    }
+                };
+            }
+
+            @Override
+            protected JButton createDecreaseButton(int orientation) {
+                return new JButton() {
+                    @Override
+                    public Dimension getPreferredSize() {
+                        return d;
+                    }
+                };
+            }
+
+            @Override
+            protected void paintTrack(Graphics g, JComponent c, Rectangle trackBounds) {
+            }
+
+            @Override
+            protected void paintThumb(Graphics g, JComponent c, Rectangle thumbBounds) {
+            }
+
+            @Override
+            protected void setThumbBounds(int x, int y, int width, int height) {
+                super.setThumbBounds(x, y, width, height);
+                scrollbar.repaint();
+            }
+        });
 
         setBoxLayoutY(EnterPhoneNumber);
         setBoxLayoutY(EnterSMSCode);
@@ -147,7 +215,7 @@ public class Form {
         Title.add(Box.createRigidArea(new Dimension(10, 10)), 3);
         Title.add(Box.createRigidArea(new Dimension(10, 10)), 6);
 
-        closeButton.addActionListener(e -> System.exit(1));
+        closeButton.addActionListener(e -> onClose.accept());
 
         nameRegistrationTextField.addMouseListener(new MouseAdapter() {
             @Override
@@ -189,15 +257,27 @@ public class Form {
             @Override
             public void mouseClicked(MouseEvent e) {
                 super.mousePressed(e);
-                searchTextField.setText("");
+                if (searchTextField.getText().equals("Поиск")) {
+                    searchTextField.setText("");
+                    searchTextField.setForeground(new Color(110, 110, 110));
+                }
             }
         });
         searchTextField.addFocusListener(new FocusAdapter() {
             @Override
             public void focusLost(FocusEvent e) {
                 super.focusLost(e);
-                if (searchTextField.getText().isEmpty()) {
-                    searchTextField.setText("Поиск");
+                searchTextField.setForeground(new Color(230, 230, 230));
+                searchTextField.setText("Поиск");
+                List.updateUI();
+            }
+        });
+
+        searchTextField.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyReleased(KeyEvent e) {
+                if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+                    onSearch.accept(searchTextField.getText());
                 }
             }
         });
@@ -214,8 +294,6 @@ public class Form {
 
         backButtonAddContact.addActionListener(e -> {
             enterNumberContactTextField.setText("+7");
-            contactNameTextField.setText("");
-            contactSurnameTextField.setText("");
             ((CardLayout) MainPanel.getLayout()).show(MainPanel, "Main");
         });
 
@@ -223,9 +301,7 @@ public class Form {
 
         backButtonEditContact.addActionListener(e -> ((CardLayout) MainPanel.getLayout()).show(MainPanel, "Main"));
 
-        sendButton.addActionListener(e -> {
-            sendMessage();
-        });
+        sendButton.addActionListener(e -> sendMessage());
 
         textFieldEnterMassage.addFocusListener(new FocusAdapter() {
             @Override
@@ -237,17 +313,9 @@ public class Form {
             }
         });
 
-        nextButtonEnterNum.addActionListener(e -> pushPhoneNumber());
+        nextButtonEnterNum.addActionListener(e -> sendPhoneNumber());
 
-        exitButton.addActionListener(e -> {
-            if (onLogOut.get()) {
-                List.removeAll();
-                Dialogs.removeAll();
-                invalidPhoneNumber.setVisible(false);
-                invalidSMSCode.setVisible(false);
-                showEnterPhoneNumber();
-            }
-        });
+        exitButton.addActionListener(e -> onLogOut.accept());
 
         minimizeButton.addActionListener(e -> onMinimize.accept());
 
@@ -255,78 +323,51 @@ public class Form {
 
         settingsButton.addActionListener(e -> {
             ((CardLayout) MainPanel.getLayout()).show(MainPanel, "ProfileSetting");
-            phoneNumberLabel.setText(textFieldEnterNumber.getText().trim());
             nameSettingTextField.setText(getAccountName());
             surNameSettingTextField.setText(getAccountSurname());
         });
 
-        saveSettingButton.addActionListener(e -> {
-            onSaveSetting.accept(nameSettingTextField.getText(), surNameSettingTextField.getText());
-            setAccountName(nameSettingTextField.getText());
-            setAccountSurname(surNameSettingTextField.getText());
-        });
+        saveSettingButton.addActionListener(e -> onSaveSetting.accept(nameSettingTextField.getText(), surNameSettingTextField.getText()));
 
-        nextButtonEnterSMS.addActionListener(e -> {
-            pushSMSCode();
-        });
+        nextButtonEnterSMS.addActionListener(e -> sendSMSCode());
 
         addButton.addActionListener(e -> {
             enterNumberContactTextField.setText("+7");
             enterNumberContactTextField.setCaretPosition(enterNumberContactTextField.getText().length());
-            contactNameTextField.setText("");
-            contactSurnameTextField.setText("");
-            contactNotFound.setVisible(false);
             ((CardLayout) MainPanel.getLayout()).show(MainPanel, "AddContact");
         });
 
-        deleteContactButton.addActionListener(e -> {
-            if (onDeleteContact.apply(activeContact.getContactId())) {
-                List.remove(activeContact);
-                showMain();
-            }
-        });
+        deleteContactButton.addActionListener(e -> onDeleteContact.accept(activeContact.getId()));
 
         saveEditContactButton.addActionListener(e -> {
-            activeContact.setName(textFieldContactName.getText());
-            //как-то сохранить изменения
+            onEditContact.accept(activeContact.getId(), textFieldContactName.getText());
         });
 
-        nextButton3.addActionListener(e -> {
-            onRegistrationComplete.accept(nameRegistrationTextField.getText(), surnameRegistrationTextField.getText());
-            onLogInComplete.accept(List);
-            showMain();
-        });
+        nextButton3.addActionListener(e -> onRegistrationComplete.accept(nameRegistrationTextField.getText(), surnameRegistrationTextField.getText()));
 
-        addContactButton.addActionListener(e -> {
-            if (!onAddContact.accept(enterNumberContactTextField.getText().replaceAll("[^0-9]+", ""), contactNameTextField.getText(), contactSurnameTextField.getText())) {
-                contactNotFound.setVisible(true);
-                AddContact.updateUI();
-            } else {
-                showMain();
-            }
-        });
-
-        textFieldEnterMassage.addCaretListener(e -> {
-            int lineCount = textFieldEnterMassage.getLineCount();
-            if (lineCount > 1) {
-                if (lineCount > 10) {
-                    textFieldEnterMassage.setEditable(false);
-                }
-                textFieldEnterMassage.setMaximumSize(new Dimension(440, lineCount * 26));
-                EnterMessage.setPreferredSize(new Dimension(600, 15 + lineCount * 26));
-                Dialog.updateUI();
-            } else {
-                textFieldEnterMassage.setMaximumSize(new Dimension(440, 45));
-                EnterMessage.setPreferredSize(new Dimension(600, 60));
-                Dialog.updateUI();
-            }
-        });
+        addContactButton.addActionListener(e -> onAddContact.accept(enterNumberContactTextField.getText().replaceAll("[^0-9]+", "")));
 
         textFieldEnterMassage.addKeyListener(new KeyAdapter() {
             @Override
             public void keyPressed(KeyEvent e) {
                 if (!textFieldEnterMassage.isEditable() && e.getKeyCode() == KeyEvent.VK_BACK_SPACE) {
                     textFieldEnterMassage.setEditable(true);
+                } else {
+                    int lineCount = textFieldEnterMassage.getLineCount();
+                    if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+                        lineCount++;
+                    }
+                    if (lineCount > 10) {
+                        textFieldEnterMassage.setEditable(false);
+                    } else if (lineCount > 1) {
+                        textFieldEnterMassage.setMaximumSize(new Dimension(440, 29 + lineCount * 22));
+                        EnterMessage.setPreferredSize(new Dimension(600, 44 + lineCount * 22));
+                        activeContact.getDialog().scrollDown();
+                    } else {
+                        textFieldEnterMassage.setMaximumSize(new Dimension(440, 45));
+                        EnterMessage.setPreferredSize(new Dimension(600, 60));
+                        Dialog.updateUI();
+                    }
                 }
             }
         });
@@ -335,7 +376,7 @@ public class Form {
             @Override
             public void keyReleased(KeyEvent e) {
                 if (e.getKeyCode() == KeyEvent.VK_ENTER) {
-                    pushPhoneNumber();
+                    sendPhoneNumber();
                 }
             }
         });
@@ -344,7 +385,7 @@ public class Form {
             @Override
             public void keyReleased(KeyEvent e) {
                 if (e.getKeyCode() == KeyEvent.VK_ENTER) {
-                    pushSMSCode();
+                    sendSMSCode();
                 }
             }
         });
@@ -415,7 +456,6 @@ public class Form {
                 @Override
                 protected void paintComponent(Graphics g) {
                     super.paintComponent(g);
-                    g.drawImage(accountPhoto, -10, 0, 50, 30, null); // для пробы!
                     g.drawImage(maskBlue, 0, 0, null);
                 }
             };
@@ -507,53 +547,34 @@ public class Form {
 
     private void sendMessage() {
         if (activeContact != null) {
-            if (!textFieldEnterMassage.getText().isEmpty() && !textFieldEnterMassage.getText().equals("Введите сообщение")) {
-                int i = 0;
-                for (Component comp : Dialogs.getComponents()) {
-                    if (comp.isVisible()) {
-                        ((Dialog) Dialogs.getComponent(i)).addMessage(new Message(textFieldEnterMassage.getText(), true, System.currentTimeMillis()));
-                        textFieldEnterMassage.setText("");
-                        break;
-                    }
-                    i++;
-                }
+            String message = textFieldEnterMassage.getText();
+            int contactId = activeContact.getId();
+            if (!message.isEmpty() && !message.equals("Введите сообщение")) {
+                onSendMessage.accept(contactId, message);
+                textFieldEnterMassage.setText("");
             }
         }
     }
 
-    private void pushPhoneNumber() {
+    private void sendPhoneNumber() {
         String phoneNumber = textFieldEnterNumber.getText().replaceAll("[^0-9]+", "");
         if (phoneNumber.isEmpty()) {
-            invalidPhoneNumber.setVisible(true);
-            EnterPhoneNumber.updateUI();
-        } else if (onEnterNumber.test(phoneNumber)) {
-            showEnterSMSCode();
+            showWarningMessage("Введите номер телефона!");
         } else {
-            invalidPhoneNumber.setVisible(true);
-            EnterPhoneNumber.updateUI();
+            onEnterNumber.accept(phoneNumber);
         }
     }
 
-    private void pushSMSCode() {
+    private void sendSMSCode() {
         String password = String.valueOf(textFieldEnterCode.getPassword());
         if (password.isEmpty()) {
-            invalidSMSCode.setVisible(true);
-            EnterSMSCode.updateUI();
+            showWarningMessage("Введите код из СМС!");
         } else {
-            Boolean status = onEnterSMSCode.apply(password);
-            if (status == null) {
-                invalidSMSCode.setVisible(true);
-                EnterSMSCode.updateUI();
-            } else if (status) {
-                onLogInComplete.accept(List);
-                showMain();
-            } else {
-                showRegistration();
-            }
+            onEnterSMSCode.accept(password);
         }
     }
 
-    public void addContacts(int id, String name, String phone, BufferedImage photo, boolean online) {
+    public void addContact(int id, String name, String phone, BufferedImage photo, boolean online) {
         Contact contact = new Contact(id, name, phone, photo, online);
         contact.addMouseListener(new MouseAdapter() {
             @Override
@@ -561,40 +582,70 @@ public class Form {
                 if (!contact.equals(activeContact)) {
                     if (activeContact != null) {
                         activeContact.disableContact();
+                    } else {
+                        Dialog.setVisible(true);
                     }
+                    contact.grabFocus();
                     activeContact = contact;
                     contact.enabledContact();
-                    contactNameLabel.setVisible(true);
-                    editContactButton.setVisible(true);
-                    textFieldEnterMassage.setVisible(true);
-                    sendButton.setVisible(true);
                     contactNameLabel.setText(contact.getName());
                     textFieldContactName.setText(contact.getName());
                     editContactPhoto = contact.getPhoto();
                     contactPhoneNumberLabel.setText(contact.getPhone());
-                    ((CardLayout) Dialogs.getLayout()).show(Dialogs, contact.getName());
+                    ((CardLayout) Dialogs.getLayout()).show(Dialogs, Integer.toString(contact.getId()));
+                } else {
+                    contact.grabFocus();
                 }
             }
         });
         List.add(contact);
-        Dialogs.add(contact.getName(), contact.getDialog());
+        Dialogs.add(Integer.toString(contact.getId()), contact.getDialog());
+        List.updateUI();
     }
 
     public JPanel getRootPanel() {
-        showEnterPhoneNumber();
         return RootPanel;
-    }
-
-    public void setAccountPhoto(BufferedImage photo) {
-        accountPhoto = photo;
     }
 
     public void setAccountName(String name) {
         accountNameLabel.setText(name);
+        accountNameLabel.setPreferredSize(new Dimension(getAccountName().length() * 8, 24));
+        Title.updateUI();
     }
 
     public void setAccountSurname(String surname) {
         accountSurnameLabel.setText(surname);
+        accountSurnameLabel.setPreferredSize(new Dimension(getAccountSurname().length() * 8, 24));
+        Title.updateUI();
+    }
+
+    public void setAccountPhoneNumber(String number) {
+        phoneNumberLabel.setText(number);
+    }
+
+    public JPanel getList() {
+        return List;
+    }
+
+    public void updateContact(int id, String name) {
+        Contact contact = getContact(id);
+        if (contact != null) {
+            contact.setName(name);
+        }
+    }
+
+    public Contact getContact(int contactId) {
+        Contact findContact = null;
+        for (Component component : List.getComponents()) {
+            if (component.isVisible()) {
+                Contact contact = (Contact) component;
+                if (contact.getId() == contactId) {
+                    findContact = contact;
+                    break;
+                }
+            }
+        }
+        return findContact;
     }
 
     private String getAccountName() {
@@ -605,37 +656,59 @@ public class Form {
         return accountSurnameLabel.getText();
     }
 
-    private void showEnterSMSCode() {
-        labelTelephoneNumber.setText(textFieldEnterNumber.getText().trim());
+    public void deleteContact(int id) {
+        if (activeContact.getId() == id) {
+            Dialog.setVisible(false);
+            activeContact = null;
+            showMain();
+        }
+        List.remove(getContact(id));
+    }
+
+    public void closeApplication() {
+        System.exit(1);
+    }
+
+    public void showWarningMessage(String text) {
+        new WarningMessage(getRootPanel(), text);
+    }
+
+    public void showEnterSMSCode() {
+        labelTelephoneNumber.setText(phoneNumberLabel.getText().trim());
         ((CardLayout) MainPanel.getLayout()).show(MainPanel, "EnterSMSCode");
         textFieldEnterCode.grabFocus();
+        MainPanel.setVisible(true);
     }
 
-    private void showMain() {
-        accountNameLabel.setPreferredSize(new Dimension(getAccountName().length() * 8, 24));
-        accountSurnameLabel.setPreferredSize(new Dimension(getAccountSurname().length() * 8, 24));
-        Title.updateUI();
+    public void showMain() {
         ((CardLayout) MainPanel.getLayout()).show(MainPanel, "Main");
+        MainPanel.setVisible(true);
     }
 
-    private void showRegistration() {
+    public void showRegistration() {
         ((CardLayout) MainPanel.getLayout()).show(MainPanel, "Registration");
+        MainPanel.setVisible(true);
     }
 
-    private void showEnterPhoneNumber() {
+    public void showEnterPhoneNumber() {
+        List.removeAll();
+        Dialogs.removeAll();
+        Dialog.setVisible(false);
+        activeContact = null;
         textFieldEnterNumber.setCaretPosition(textFieldEnterNumber.getText().length());
         ((CardLayout) MainPanel.getLayout()).show(MainPanel, "EnterPhoneNumber");
+        MainPanel.setVisible(true);
     }
 
-    public void onEnterSMSCode(Function<String, Boolean> consumer) {
-        this.onEnterSMSCode = consumer;
+    public void onEnterSMSCode(Consumer<String> function) {
+        this.onEnterSMSCode = function;
     }
 
-    public void onEnterNumber(Predicate<String> function) {
+    public void onEnterNumber(Consumer<String> function) {
         this.onEnterNumber = function;
     }
 
-    public void onLogOut(Supplier<Boolean> supplier) {
+    public void onLogOut(Action supplier) {
         this.onLogOut = supplier;
     }
 
@@ -643,33 +716,40 @@ public class Form {
         this.onMinimize = action;
     }
 
-    public void onSaveSetting(BiConsumer<String, String> biConsumer) {
-        this.onSaveSetting = biConsumer;
+    public void onClose(Action supplier) {
+        this.onClose = supplier;
     }
 
-    public void onAddContact(ThreeFunction function) {
+    public void onSaveSetting(BiConsumer<String, String> biFunction) {
+        this.onSaveSetting = biFunction;
+    }
+
+    public void onAddContact(Consumer<String> function) {
         this.onAddContact = function;
     }
 
-    public void onDeleteContact(Function<Integer, Boolean> function) {
+    public void onDeleteContact(Consumer<Integer> function) {
         this.onDeleteContact = function;
     }
 
-    public void onRegistrationComplete(BiConsumer<String, String> biConsumer) {
-        this.onRegistrationComplete = biConsumer;
+    public void onRegistrationComplete(BiConsumer<String, String> biFunction) {
+        this.onRegistrationComplete = biFunction;
     }
 
-    public void onLogInComplete(Consumer<JPanel> consumer) {
-        this.onLogInComplete = consumer;
+    public void onSearch(Consumer<String> consumer) {
+        this.onSearch = consumer;
+    }
+
+    public void onSendMessage(BiConsumer<Integer, String> biFunction) {
+        this.onSendMessage = biFunction;
+    }
+
+    public void onEditContact(BiConsumer<Integer, String> onEditContact) {
+        this.onEditContact = onEditContact;
     }
 
     @FunctionalInterface
     interface Action {
         void accept();
-    }
-
-    @FunctionalInterface
-    interface ThreeFunction {
-        boolean accept(String number, String name, String surname);
     }
 }

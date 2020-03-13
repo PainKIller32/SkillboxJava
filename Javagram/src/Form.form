@@ -9,6 +9,7 @@
       <maximumSize width="800" height="600"/>
       <minimumSize width="800" height="600"/>
       <preferredSize width="800" height="600"/>
+      <visible value="true"/>
     </properties>
     <border type="none"/>
     <children>
@@ -19,6 +20,7 @@
           <minimumSize width="800" height="570"/>
           <opaque value="true"/>
           <preferredSize width="800" height="570"/>
+          <visible value="true"/>
         </properties>
         <border type="none"/>
         <children>
@@ -88,19 +90,6 @@
                 <clientProperties>
                   <caretWidth class="java.lang.Integer" value="2"/>
                 </clientProperties>
-              </component>
-              <component id="22e31" class="javax.swing.JLabel" binding="invalidPhoneNumber">
-                <constraints/>
-                <properties>
-                  <alignmentX value="0.5"/>
-                  <focusable value="false"/>
-                  <font name="Microsoft JhengHei Light" size="16" style="0"/>
-                  <foreground color="-58880"/>
-                  <requestFocusEnabled value="false"/>
-                  <text value="Неправильный номер телефона!"/>
-                  <verifyInputWhenFocusTarget value="false"/>
-                  <visible value="false"/>
-                </properties>
               </component>
               <vspacer id="8d354">
                 <constraints/>
@@ -224,19 +213,6 @@
                   <selectedTextColor color="-1644826"/>
                 </properties>
               </component>
-              <component id="8a26e" class="javax.swing.JLabel" binding="invalidSMSCode">
-                <constraints/>
-                <properties>
-                  <alignmentX value="0.5"/>
-                  <focusable value="false"/>
-                  <font name="Microsoft JhengHei Light" size="16" style="0"/>
-                  <foreground color="-58880"/>
-                  <requestFocusEnabled value="false"/>
-                  <text value="Неправильный код подтверждения!"/>
-                  <verifyInputWhenFocusTarget value="false"/>
-                  <visible value="false"/>
-                </properties>
-              </component>
               <vspacer id="6a706">
                 <constraints/>
               </vspacer>
@@ -265,10 +241,11 @@
               <card name="Main"/>
             </constraints>
             <properties>
+              <background color="-1"/>
               <focusable value="false"/>
               <maximumSize width="800" height="570"/>
               <minimumSize width="800" height="570"/>
-              <opaque value="false"/>
+              <opaque value="true"/>
               <preferredSize width="800" height="570"/>
               <requestFocusEnabled value="false"/>
               <verifyInputWhenFocusTarget value="false"/>
@@ -386,10 +363,10 @@
                     <properties>
                       <background color="-1644826"/>
                       <focusable value="false"/>
-                      <maximumSize width="200" height="40"/>
+                      <maximumSize width="200" height="50"/>
                       <minimumSize width="200" height="40"/>
                       <opaque value="true"/>
-                      <preferredSize width="200" height="40"/>
+                      <preferredSize width="200" height="50"/>
                       <requestFocusEnabled value="false"/>
                       <verifyInputWhenFocusTarget value="false"/>
                     </properties>
@@ -409,21 +386,6 @@
                       </component>
                     </children>
                   </grid>
-                  <grid id="6d339" binding="List" layout-manager="FlowLayout" hgap="0" vgap="0" flow-align="1">
-                    <constraints border-constraint="Center"/>
-                    <properties>
-                      <autoscrolls value="true"/>
-                      <background color="-1644826"/>
-                      <focusable value="false"/>
-                      <maximumSize width="200" height="490"/>
-                      <minimumSize width="200" height="490"/>
-                      <preferredSize width="200" height="490"/>
-                      <requestFocusEnabled value="false"/>
-                      <verifyInputWhenFocusTarget value="false"/>
-                    </properties>
-                    <border type="none"/>
-                    <children/>
-                  </grid>
                   <grid id="95cd1" layout-manager="FlowLayout" hgap="0" vgap="0" flow-align="1">
                     <constraints border-constraint="North"/>
                     <properties>
@@ -439,6 +401,8 @@
                         <constraints/>
                         <properties>
                           <background color="-1"/>
+                          <focusCycleRoot value="false"/>
+                          <focusTraversalPolicyProvider value="false"/>
                           <font name="Microsoft JhengHei Light" size="16" style="0"/>
                           <foreground color="-1644826"/>
                           <horizontalAlignment value="2"/>
@@ -448,11 +412,40 @@
                           <minimumSize width="250" height="40"/>
                           <opaque value="true"/>
                           <preferredSize width="250" height="40"/>
+                          <requestFocusEnabled value="true"/>
                           <text value="Поиск"/>
+                          <verifyInputWhenFocusTarget value="true"/>
                         </properties>
                       </component>
                     </children>
                   </grid>
+                  <scrollpane id="6177e" binding="contactScrollPane">
+                    <constraints border-constraint="Center"/>
+                    <properties>
+                      <focusable value="false"/>
+                      <horizontalScrollBarPolicy value="31"/>
+                      <opaque value="false"/>
+                      <verticalScrollBarPolicy value="21"/>
+                    </properties>
+                    <border type="none"/>
+                    <children>
+                      <grid id="6d339" binding="List" layout-manager="FlowLayout" hgap="0" vgap="0" flow-align="1">
+                        <constraints/>
+                        <properties>
+                          <autoscrolls value="true"/>
+                          <background color="-1644826"/>
+                          <focusable value="false"/>
+                          <maximumSize width="200" height="480"/>
+                          <minimumSize width="200" height="480"/>
+                          <preferredSize width="200" height="480"/>
+                          <requestFocusEnabled value="false"/>
+                          <verifyInputWhenFocusTarget value="false"/>
+                        </properties>
+                        <border type="none"/>
+                        <children/>
+                      </grid>
+                    </children>
+                  </scrollpane>
                 </children>
               </grid>
               <grid id="c0751" binding="Dialog" layout-manager="BorderLayout" hgap="0" vgap="5">
@@ -464,6 +457,7 @@
                   <foreground color="-1"/>
                   <minimumSize width="500" height="500"/>
                   <preferredSize width="500" height="500"/>
+                  <visible value="false"/>
                 </properties>
                 <border type="none"/>
                 <children>
@@ -496,7 +490,7 @@
                           <preferredSize width="29" height="29"/>
                           <text value=""/>
                           <verifyInputWhenFocusTarget value="false"/>
-                          <visible value="false"/>
+                          <visible value="true"/>
                         </properties>
                       </component>
                       <component id="c632a" class="javax.swing.JLabel" binding="contactNameLabel">
@@ -506,13 +500,13 @@
                           <focusable value="false"/>
                           <font name="Microsoft JhengHei Light" size="16" style="0"/>
                           <foreground color="-9079435"/>
-                          <maximumSize width="100" height="29"/>
+                          <maximumSize width="300" height="29"/>
                           <minimumSize width="100" height="29"/>
-                          <preferredSize width="100" height="29"/>
+                          <preferredSize width="300" height="29"/>
                           <requestFocusEnabled value="false"/>
                           <text value=""/>
                           <verifyInputWhenFocusTarget value="false"/>
-                          <visible value="false"/>
+                          <visible value="true"/>
                         </properties>
                       </component>
                       <hspacer id="3a429">
@@ -531,7 +525,7 @@
                           <requestFocusEnabled value="false"/>
                           <text value=""/>
                           <verifyInputWhenFocusTarget value="false"/>
-                          <visible value="false"/>
+                          <visible value="true"/>
                         </properties>
                       </component>
                     </children>
@@ -563,7 +557,7 @@
                           <focusCycleRoot value="true"/>
                           <focusTraversalPolicyProvider value="true"/>
                           <focusable value="true"/>
-                          <font name="Microsoft JhengHei Light" size="18" style="0"/>
+                          <font name="Microsoft JhengHei Light" size="16" style="0"/>
                           <foreground color="-9539986"/>
                           <lineWrap value="true"/>
                           <margin top="8" left="6" bottom="2" right="6"/>
@@ -574,7 +568,7 @@
                           <rows value="10"/>
                           <text value="Введите сообщение"/>
                           <verifyInputWhenFocusTarget value="true"/>
-                          <visible value="false"/>
+                          <visible value="true"/>
                           <wrapStyleWord value="true"/>
                         </properties>
                       </component>
@@ -592,7 +586,7 @@
                           <preferredSize width="57" height="45"/>
                           <requestFocusEnabled value="false"/>
                           <text value="Button"/>
-                          <visible value="false"/>
+                          <visible value="true"/>
                         </properties>
                       </component>
                       <hspacer id="90432">
@@ -608,7 +602,7 @@
                       <focusable value="true"/>
                       <foreground color="-1"/>
                       <opaque value="false"/>
-                      <preferredSize width="600" height="400"/>
+                      <preferredSize width="500" height="400"/>
                       <requestFocusEnabled value="true"/>
                       <verifyInputWhenFocusTarget value="true"/>
                     </properties>
@@ -932,6 +926,9 @@
                   <verifyInputWhenFocusTarget value="false"/>
                 </properties>
               </component>
+              <vspacer id="3932f">
+                <constraints/>
+              </vspacer>
               <component id="a864d" class="javax.swing.JTextField" binding="enterNumberContactTextField" custom-create="true">
                 <constraints/>
                 <properties>
@@ -951,47 +948,6 @@
                 <clientProperties>
                   <caretWidth class="java.lang.Integer" value="2"/>
                 </clientProperties>
-              </component>
-              <component id="f6d2" class="javax.swing.JTextField" binding="contactNameTextField">
-                <constraints/>
-                <properties>
-                  <caretColor color="-1644826"/>
-                  <font name="Microsoft JhengHei Light" size="36" style="0"/>
-                  <foreground color="-1644826"/>
-                  <horizontalAlignment value="0"/>
-                  <maximumSize width="350" height="65"/>
-                  <minimumSize width="350" height="65"/>
-                  <opaque value="false"/>
-                  <preferredSize width="350" height="65"/>
-                  <text value="Имя"/>
-                </properties>
-              </component>
-              <component id="8094d" class="javax.swing.JTextField" binding="contactSurnameTextField">
-                <constraints/>
-                <properties>
-                  <caretColor color="-1644826"/>
-                  <font name="Microsoft JhengHei Light" size="36" style="0"/>
-                  <foreground color="-1644826"/>
-                  <horizontalAlignment value="0"/>
-                  <maximumSize width="350" height="65"/>
-                  <minimumSize width="350" height="65"/>
-                  <opaque value="false"/>
-                  <preferredSize width="350" height="85"/>
-                  <text value="Фамилия"/>
-                </properties>
-              </component>
-              <component id="1ed47" class="javax.swing.JLabel" binding="contactNotFound">
-                <constraints/>
-                <properties>
-                  <alignmentX value="0.5"/>
-                  <focusable value="false"/>
-                  <font name="Microsoft JhengHei Light" size="16" style="0"/>
-                  <foreground color="-58880"/>
-                  <requestFocusEnabled value="false"/>
-                  <text value="Контакт не найден!"/>
-                  <verifyInputWhenFocusTarget value="false"/>
-                  <visible value="false"/>
-                </properties>
               </component>
               <vspacer id="427ec">
                 <constraints/>
@@ -1084,6 +1040,7 @@
                 <constraints/>
                 <properties>
                   <background color="-15132391"/>
+                  <caretColor color="-1644826"/>
                   <dragEnabled value="false"/>
                   <focusCycleRoot value="true"/>
                   <focusTraversalPolicyProvider value="true"/>

@@ -9,24 +9,31 @@ public class Dialog extends JPanel {
     public Dialog(String name) {
         setName(name);
         setLayout(new BorderLayout());
-        setAlignmentX(Component.CENTER_ALIGNMENT);
+        setPreferredSize(new Dimension(500,500));
         setOpaque(false);
 
         panel = new JPanel();
+        panel.setMaximumSize(new Dimension(500,5000));
+        panel.setMinimumSize(new Dimension(500,500));
         panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
-        panel.setAlignmentX(Component.CENTER_ALIGNMENT);
         panel.setOpaque(true);
         panel.setBackground(Color.WHITE);
         panel.add(Box.createVerticalGlue());
         scrollPane = new JScrollPane(panel);
+        scrollPane.setPreferredSize(new Dimension(500,500));
         scrollPane.setOpaque(false);
         scrollPane.setBorder(BorderFactory.createEmptyBorder());
         scrollPane.getVerticalScrollBar().setUnitIncrement(20);
         add(scrollPane, BorderLayout.CENTER);
     }
 
-    public void addMessage(Message message) {
-        panel.add(message);
+    public void addMessage(Message message, int index) {
+        panel.add(message, index);
+        updateUI();
+        scrollDown();
+    }
+
+    public void scrollDown() {
         SwingUtilities.invokeLater(() -> scrollPane.getViewport().setViewPosition(new Point(0, panel.getHeight())));
     }
 

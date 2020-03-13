@@ -1,44 +1,21 @@
-import org.javagram.TelegramApiBridge;
-import org.javagram.response.AuthAuthorization;
-import org.javagram.response.AuthSentCode;
-import org.javagram.response.object.User;
-import org.javagram.response.object.UserContact;
-import org.telegram.api.TLImportedContact;
-import org.telegram.api.TLInputContact;
-import org.telegram.api.contacts.TLImportedContacts;
-import org.telegram.api.engine.TelegramApi;
-import org.telegram.api.requests.TLRequestContactsImportContacts;
-import org.telegram.tl.TLVector;
+import org.drinkless.tdlib.TdApi;
 
-import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionListener;
-import java.awt.image.BufferedImage;
-import java.io.ByteArrayInputStream;
-import java.io.IOException;
-import java.lang.reflect.Field;
-import java.util.ArrayList;
 
 public class Loader {
-    private static BufferedImage accountPhotoSmall = null;
-
-    private static User user;
-    private static AuthSentCode sentCode;
-    private static AuthAuthorization logIn;
-    private static String smsCode;
+    private static Form form;
+    private static TelegramController telegramController;
 
     public static void main(String[] args) throws Exception {
-
         UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
         JFrame frame = new JFrame();
-        Form form = new Form();
-        frame.setContentPane(form.getRootPanel());
+        form = new Form();
         frame.setUndecorated(true);
         frame.setSize(800, 600);
         frame.setLocationRelativeTo(null);
-        frame.setVisible(true);
         frame.addMouseMotionListener(new MouseMotionListener() {
             int x;
             int y;
@@ -54,118 +31,65 @@ public class Loader {
                 y = e.getY();
             }
         });
+        frame.setContentPane(form.getRootPanel());
+        frame.setVisible(true);
 
+        telegramController = new TelegramController();
+
+        telegramController.onContactAdded(() -> SwingUtilities.invokeLater(() -> form.showMain()));
+        telegramController.onExit(() -> form.closeApplication());
+        telegramController.onContactDeleted((id) -> form.deleteContact(id));
+        telegramController.onError((text) -> form.showWarningMessage(text));
+        telegramController.onWaitRegistration(() -> SwingUtilities.invokeLater(() -> form.showRegistration()));
+        telegramController.onWaitPhoneNumber(() -> SwingUtilities.invokeLater(() -> form.showEnterPhoneNumber()));
+        telegramController.onNewMessage((id, message) -> SwingUtilities.invokeLater(() -> addMessageToForm(id, message, -1)));
+        telegramController.onUserStatusUpdate((id, online) -> form.getContact(id).setStatus(online));
+        telegramController.onMessageRequestReturned((id, message) -> SwingUtilities.invokeLater(() -> addMessageToForm(id, message, 1)));
+        telegramController.onLastMessageUpdate((id, text, date, out) -> {
+            form.getContact(id).setLastMessage(text, out);
+            form.getContact(id).setLastMessageTime(Updater.updateSendTime(date));
+        });
+        telegramController.onWaitCode((phoneNumber) -> SwingUtilities.invokeLater(() -> {
+            form.setAccountPhoneNumber(phoneNumber);
+            form.showEnterSMSCode();
+        }));
+        telegramController.onAuthorizationStateReady(() -> {
+            SwingUtilities.invokeLater(() -> form.showMain());
+            new Updater(form.getList());
+        });
+        telegramController.onChatRequestReturned((user) -> {
+            form.addContact(user.id, user.firstName + " " + user.lastName, user.phoneNumber, null, telegramController.isContactOnline(user.id));
+        });
+        telegramController.onUserUpdate((users) -> {
+            for (TdApi.User user : users.values()) {
+                if (!user.isContact) {
+                    form.setAccountName(user.firstName);
+                    form.setAccountSurname(user.lastName);
+                    form.setAccountPhoneNumber(user.phoneNumber);
+                } else {
+                    form.updateContact(user.id, user.firstName);
+                }
+            }
+        });
+
+        form.onClose(() -> telegramController.close());
+        form.onLogOut(() -> telegramController.logOut());
         form.onMinimize(() -> frame.setState(Frame.ICONIFIED));
+        form.onDeleteContact(id -> telegramController.deleteContact(id));
+        form.onSearch((query) -> telegramController.searchContact(query));
+        form.onAddContact(number -> telegramController.addContact(number));
+        form.onEnterSMSCode((smsCode) -> telegramController.sendSMSCode(smsCode));
+        form.onSendMessage((id, text) -> telegramController.sendMessage(id, text));
+        form.onEditContact((id, name) -> telegramController.editContact(id, name));
+        form.onEnterNumber((phoneNumber) -> telegramController.sendPhoneNumber(phoneNumber));
+        form.onSaveSetting((name, surname) -> telegramController.updateAccount(name, surname));
+        form.onRegistrationComplete((name, surname) -> telegramController.registerUser(name, surname));
+    }
 
-        TelegramApiBridge bridge = new TelegramApiBridge("149.154.167.40:443", 615381, "1299ea11aa7f63c004936e40856ca6cb");
-
-
-        Class telegramApiBridgeClass = TelegramApiBridge.class;
-        Field apiField = telegramApiBridgeClass.getDeclaredField("api");
-        apiField.setAccessible(true);
-        TelegramApi telegramApi = (TelegramApi) apiField.get(bridge);
-
-        form.onEnterNumber((number) -> {
-            try {
-                sentCode = bridge.authSendCode(number);
-                return true;
-            } catch (Exception e) {
-                e.printStackTrace();
-                return false;
-            }
-        });
-
-        form.onEnterSMSCode((codeSMS) -> {
-            smsCode = codeSMS;
-            boolean registered = sentCode.isRegistered();
-            try {
-                if (registered) {
-                    //logIn = bridge.authSignUp(smsCode,"Igor","Melnikov");
-                    //logIn = bridge.authSignUp(smsCode,"Ivan","Ivanov");
-                    logIn = bridge.authSignIn(smsCode);
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
-                return null;
-            }
-            return registered;
-        });
-
-
-        form.onRegistrationComplete((name, surname) -> {
-            try {
-                logIn = bridge.authSignUp(smsCode, name, surname);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        });
-
-        form.onLogInComplete((list) -> {
-            try {
-                user = logIn.getUser();
-                byte[] userPhoto = user.getPhoto(true);
-                if (userPhoto != null) {
-                    accountPhotoSmall = ImageIO.read(new ByteArrayInputStream(userPhoto));
-                    form.setAccountPhoto(accountPhotoSmall);
-                }
-                form.setAccountName(user.getFirstName());
-                form.setAccountSurname(user.getLastName());
-                ArrayList<UserContact> contacts = new ArrayList<>(bridge.contactsGetContacts());
-                for (UserContact contact : contacts) {
-                    form.addContacts(contact.getId(), contact.toString(), contact.getPhone(),
-                            ImageIO.read(new ByteArrayInputStream(contact.getPhoto(true))), contact.isOnline());
-                }
-                new Updater(list, contacts);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            form.addContacts(100, "Иван", "+79552300000", accountPhotoSmall, true); // проба
-            form.addContacts(200, "Олег", "85554442323", accountPhotoSmall, false); // проба
-        });
-
-        form.onSaveSetting((name, surname) -> {
-            try {
-                user = bridge.accountUpdateProfile(name, surname);
-            } catch (IOException e1) {
-                e1.printStackTrace();
-            }
-        });
-
-        form.onAddContact((number, name, surname) -> {
-            boolean added = false;
-            try {
-                TLVector<TLInputContact> v = new TLVector<>();
-                v.add(new TLInputContact(0, number, name, surname));
-                TLRequestContactsImportContacts ci = new TLRequestContactsImportContacts(v, false);
-                TLImportedContacts ic = telegramApi.doRpcCall(ci);
-                TLVector<TLImportedContact> listIC = ic.getImported();
-                if (!listIC.isEmpty()) {
-                    added = true;
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            return added;
-        });
-
-        form.onDeleteContact((id) -> {
-            boolean isDeleteContact = false;
-            try {
-                isDeleteContact = bridge.contactsDeleteContact(id);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            return isDeleteContact;
-        });
-
-        form.onLogOut(() -> {
-            boolean logOut = false;
-            try {
-                logOut = bridge.authLogOut();
-            } catch (IOException e1) {
-                e1.printStackTrace();
-            }
-            return logOut;
-        });
+    private synchronized static void addMessageToForm(Integer id, TdApi.Message message, int index) {
+        boolean out = message.senderUserId != id;
+        TdApi.MessageText messageText = (TdApi.MessageText) message.content;
+        String text = messageText.text.text;
+        form.getContact(id).getDialog().addMessage(new Message(text, out, message.date, Updater.updateSendTime(message.date)), index);
     }
 }
